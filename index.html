@@ -49,7 +49,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 64px;
+      height: 70px;
     }
 
     .nav-brand {
@@ -59,24 +59,25 @@
       text-decoration: none;
     }
 
-  .nav-logo {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  flex-shrink: 0;
-}
+    .nav-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      flex-shrink: 0;
+      box-shadow: 0 2px 10px rgba(30,107,94,0.12);
+    }
 
-.nav-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
+    .nav-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
 
     .nav-name {
       font-weight: 500;
@@ -582,7 +583,12 @@
       }
 
       .nav-name {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
+      }
+
+      .nav-logo {
+        width: 44px;
+        height: 44px;
       }
 
       .hero-text h1 {
@@ -595,12 +601,13 @@
 <body>
 
   <nav>
-<a class="nav-brand" href="#inicio">
-  <div class="nav-logo">
-    <img src="logo-dr-denis.png" alt="Logo Dr. Denis Gómez Recabarren">
-  </div>
-  <span class="nav-name">Dr. Denis Gómez Recabarren</span>
-</a>
+    <a class="nav-brand" href="#inicio">
+      <div class="nav-logo">
+        <img src="8AF2C506-381E-4EF2-8409-C759F1882A80.png" alt="Logo Dr. Denis Gómez Recabarren">
+      </div>
+      <span class="nav-name">Dr. Denis Gómez Recabarren</span>
+    </a>
+
     <ul class="nav-links">
       <li><a href="#inicio">Inicio</a></li>
       <li><a href="#sobre">Sobre mí</a></li>
@@ -615,6 +622,7 @@
     <div class="hero-photo">
       <img src="foto-doctor.png" alt="Dr. Denis Gómez Recabarren"/>
     </div>
+
     <div class="hero-text">
       <h1>Dr. Denis Gómez<br>Recabarren</h1>
       <p class="hero-specialty">Médico Psiquiatra Infanto Juvenil</p>
