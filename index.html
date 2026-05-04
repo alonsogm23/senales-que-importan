@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
   <title>Dr. Denis Gómez Recabarren | Psiquiatra Infanto Juvenil</title>
   <meta name="description" content="Atención en psiquiatría infantil y adolescente en Viña del Mar y Concón. Charlas de salud mental infanto-juvenil para comunidades educativas: Señales que importan.">
   <meta name="keywords" content="Dr Denis Gómez Recabarren, psiquiatra infantil, psiquiatra adolescente, salud mental infantil, salud mental adolescente, Concón, Reñaca, Viña del Mar, Señales que importan">
 
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
   <style>
     :root {
@@ -22,17 +22,13 @@
       --text-light: #7a9490;
       --white: #ffffff;
       --border: #e2eeeb;
+      --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-quart: cubic-bezier(0.25, 1, 0.5, 1);
+      --ease-sine: cubic-bezier(0.37, 0, 0.63, 1);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'DM Sans', sans-serif;
@@ -41,12 +37,33 @@
       line-height: 1.6;
     }
 
+    /* ── LUCIDE ICONS ── */
+    .icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .icon svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .icon-sm svg { width: 16px; height: 16px; }
+    .icon-lg svg { width: 24px; height: 24px; }
+    .icon-xl svg { width: 28px; height: 28px; }
+
+    /* ── NAV ── */
     nav {
       position: sticky;
       top: 0;
       z-index: 100;
       background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--border);
       padding: 0 2rem;
       display: flex;
@@ -73,7 +90,7 @@
       background: transparent;
       flex-shrink: 0;
       box-shadow: 0 2px 10px rgba(30,107,94,0.12);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      transition: transform 0.4s var(--ease-expo), box-shadow 0.4s var(--ease-expo);
     }
 
     .nav-logo img {
@@ -84,8 +101,8 @@
     }
 
     .nav-brand:hover .nav-logo {
-      transform: scale(1.06);
-      box-shadow: 0 4px 16px rgba(30,107,94,0.18);
+      transform: scale(1.07);
+      box-shadow: 0 6px 20px rgba(30,107,94,0.20);
     }
 
     .nav-name {
@@ -105,13 +122,33 @@
       color: var(--text-mid);
       font-size: 0.9rem;
       font-weight: 400;
-      transition: color 0.2s;
+      position: relative;
+      padding-bottom: 3px;
+      transition: color 0.25s ease;
+    }
+
+    /* Underline crece desde el centro */
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      right: 50%;
+      height: 1.5px;
+      background: var(--green-dark);
+      transition: left 0.35s var(--ease-expo), right 0.35s var(--ease-expo);
     }
 
     .nav-links a:hover {
       color: var(--green-dark);
     }
 
+    .nav-links a:hover::after {
+      left: 0;
+      right: 0;
+    }
+
+    /* ── HERO ── */
     .hero {
       padding: 5rem 2rem 4rem;
       max-width: 1100px;
@@ -133,7 +170,20 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 8px 32px rgba(30,107,94,0.12);
-      animation: softFloat 6s ease-in-out infinite;
+      position: relative;
+      animation: floatRefined 5s var(--ease-sine) infinite;
+    }
+
+    /* Glow radial detrás de la foto */
+    .hero-photo::before {
+      content: '';
+      position: absolute;
+      inset: -12px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(45,139,122,0.12) 0%, transparent 70%);
+      animation: glowPulse 4s ease-in-out infinite;
+      z-index: -1;
+      pointer-events: none;
     }
 
     .hero-photo img {
@@ -143,8 +193,16 @@
       object-position: center top;
     }
 
-    .hero-text {
-      animation: fadeSlideUp 0.9s ease-out both;
+    @keyframes floatRefined {
+      0%   { transform: translateY(0px); }
+      45%  { transform: translateY(-9px); }
+      55%  { transform: translateY(-9px); }
+      100% { transform: translateY(0px); }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50%       { opacity: 1;   transform: scale(1.06); }
     }
 
     .hero-text h1 {
@@ -154,6 +212,7 @@
       color: var(--green-dark);
       line-height: 1.15;
       margin-bottom: 0.75rem;
+      animation: riseIn 0.9s var(--ease-expo) 0.1s both;
     }
 
     .hero-specialty {
@@ -161,6 +220,7 @@
       font-size: 1.1rem;
       font-weight: 300;
       margin-bottom: 0.5rem;
+      animation: riseIn 0.9s var(--ease-expo) 0.22s both;
     }
 
     .hero-location {
@@ -169,8 +229,30 @@
       display: flex;
       align-items: center;
       gap: 0.4rem;
+      animation: riseIn 0.9s var(--ease-expo) 0.34s both;
     }
 
+    .hero-location .icon svg {
+      color: var(--green-mid);
+    }
+
+    /* ── KEYFRAMES GLOBALES ── */
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ── STATS ── */
     .stats {
       background: var(--green-light);
       padding: 3rem 2rem;
@@ -189,37 +271,55 @@
       border-radius: 16px;
       padding: 1.5rem 1rem;
       text-align: center;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      transition:
+        transform 0.45s var(--ease-expo),
+        box-shadow 0.45s var(--ease-expo),
+        border-color 0.3s ease;
+      border: 1px solid transparent;
     }
 
     .stat-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 28px rgba(30,107,94,0.13);
+      transform: translateY(-6px);
+      box-shadow:
+        0 14px 32px rgba(30,107,94,0.10),
+        0 4px 8px rgba(30,107,94,0.06);
+      border-color: rgba(45,139,122,0.2);
     }
 
     .stat-icon {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      background: var(--green-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.6rem;
+      color: var(--green-dark);
+      transition: transform 0.4s var(--ease-expo);
+    }
+
+    .stat-card:hover .stat-icon {
+      transform: scale(1.1);
     }
 
     .stat-value {
       font-family: 'Lora', serif;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       font-weight: 700;
       color: var(--green-dark);
       line-height: 1.2;
     }
 
     .stat-label {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-light);
       margin-top: 0.25rem;
     }
 
-    section {
-      padding: 4rem 2rem;
-    }
+    /* ── SECTIONS ── */
+    section { padding: 4rem 2rem; }
 
     .section-inner {
       max-width: 1100px;
@@ -239,6 +339,7 @@
       margin-bottom: 2rem;
     }
 
+    /* ── SOBRE ── */
     .sobre-text p {
       color: var(--text-mid);
       margin-bottom: 1rem;
@@ -246,9 +347,8 @@
       max-width: 680px;
     }
 
-    .areas-bg {
-      background: var(--green-light);
-    }
+    /* ── AREAS ── */
+    .areas-bg { background: var(--green-light); }
 
     .areas-header {
       text-align: center;
@@ -266,12 +366,37 @@
       border-radius: 16px;
       padding: 1.5rem;
       box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      border: 1px solid transparent;
+      position: relative;
+      overflow: hidden;
+      transition:
+        transform 0.45s var(--ease-expo),
+        box-shadow 0.45s var(--ease-expo),
+        border-color 0.3s ease;
+    }
+
+    /* Línea de acento inferior */
+    .area-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s var(--ease-expo);
+    }
+
+    .area-card:hover::after {
+      transform: scaleX(1);
     }
 
     .area-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 28px rgba(30,107,94,0.13);
+      transform: translateY(-6px);
+      box-shadow:
+        0 16px 36px rgba(30,107,94,0.10),
+        0 4px 8px rgba(30,107,94,0.05);
+      border-color: transparent;
     }
 
     .area-icon {
@@ -282,8 +407,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
       margin-bottom: 0.75rem;
+      color: var(--green-dark);
+      transition: transform 0.4s var(--ease-expo);
+    }
+
+    .area-card:hover .area-icon {
+      transform: scale(1.1) rotate(-4deg);
     }
 
     .area-card h4 {
@@ -299,6 +429,7 @@
       line-height: 1.5;
     }
 
+    /* ── CONSULTA ── */
     .consulta-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -309,12 +440,19 @@
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 2rem;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      background: var(--white);
+      transition:
+        transform 0.45s var(--ease-expo),
+        box-shadow 0.45s var(--ease-expo),
+        border-color 0.3s ease;
     }
 
     .consulta-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 28px rgba(30,107,94,0.13);
+      transform: translateY(-6px);
+      box-shadow:
+        0 16px 40px rgba(30,107,94,0.10),
+        0 4px 10px rgba(30,107,94,0.06);
+      border-color: rgba(45,139,122,0.25);
     }
 
     .consulta-card-icon {
@@ -325,8 +463,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
       margin-bottom: 1rem;
+      color: var(--green-dark);
+      transition: transform 0.4s var(--ease-expo);
+    }
+
+    .consulta-card:hover .consulta-card-icon {
+      transform: scale(1.1);
     }
 
     .consulta-card h3 {
@@ -340,6 +483,9 @@
       font-size: 0.82rem;
       color: var(--text-light);
       margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
     }
 
     .price-row {
@@ -352,25 +498,12 @@
       gap: 1rem;
     }
 
-    .price-row .label {
-      color: var(--text-mid);
-    }
+    .price-row .label { color: var(--text-mid); }
+    .price-row .price { font-weight: 600; color: var(--green-dark); white-space: nowrap; }
+    .price-row .dur  { font-size: 0.78rem; color: var(--text-light); white-space: nowrap; }
 
-    .price-row .price {
-      font-weight: 600;
-      color: var(--green-dark);
-      white-space: nowrap;
-    }
-
-    .price-row .dur {
-      font-size: 0.78rem;
-      color: var(--text-light);
-      white-space: nowrap;
-    }
-
-    .acceso-bg {
-      background: var(--peach);
-    }
+    /* ── ACCESO ── */
+    .acceso-bg { background: var(--peach); }
 
     .acceso-header {
       text-align: center;
@@ -390,13 +523,17 @@
       border-radius: 20px;
       padding: 2rem;
       text-align: center;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+      transition:
+        transform 0.45s var(--ease-expo),
+        box-shadow 0.45s var(--ease-expo);
     }
 
     .acceso-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 28px rgba(30,107,94,0.13);
+      transform: translateY(-6px);
+      box-shadow:
+        0 16px 40px rgba(30,107,94,0.10),
+        0 4px 10px rgba(30,107,94,0.06);
     }
 
     .acceso-icon {
@@ -407,8 +544,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.6rem;
       margin: 0 auto 1rem;
+      color: var(--green-dark);
+      transition: transform 0.4s var(--ease-expo);
+    }
+
+    .acceso-card:hover .acceso-icon {
+      transform: scale(1.1) rotate(-3deg);
     }
 
     .acceso-card h3 {
@@ -424,31 +566,61 @@
       margin-bottom: 1.5rem;
     }
 
+    /* ── BOTONES ── */
     .btn {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
       padding: 0.7rem 1.5rem;
       border-radius: 10px;
       font-size: 0.88rem;
       font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
       text-decoration: none;
-      transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
       cursor: pointer;
+      border: none;
+      position: relative;
+      overflow: hidden;
+      transition:
+        transform 0.3s var(--ease-expo),
+        box-shadow 0.3s var(--ease-expo),
+        background 0.25s ease;
     }
+
+    /* Shimmer al hover */
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: -50%; left: -75%;
+      width: 50%; height: 200%;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.15), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.55s var(--ease-quart);
+    }
+
+    .btn:hover::after { left: 125%; }
 
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(30,107,94,0.18);
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+      transition: transform 0.1s ease;
     }
 
     .btn-primary {
       background: var(--green-dark);
       color: var(--white);
       width: 100%;
-      text-align: center;
     }
 
     .btn-primary:hover {
       background: var(--green-mid);
+      box-shadow:
+        0 10px 24px rgba(30,107,94,0.22),
+        0 4px 8px rgba(30,107,94,0.12);
     }
 
     .btn-secondary {
@@ -456,57 +628,15 @@
       color: var(--green-dark);
       border: 1.5px solid var(--green-dark);
       width: 100%;
-      text-align: center;
     }
 
     .btn-secondary:hover {
       background: var(--green-light);
+      box-shadow: 0 6px 16px rgba(30,107,94,0.10);
     }
 
-    .contacto-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-    }
-
-    .contacto-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-
-    .contacto-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: var(--green-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
-    }
-
-    .contacto-item strong {
-      display: block;
-      color: var(--text-dark);
-      font-size: 0.9rem;
-    }
-
-    .contacto-item a,
-    .contacto-item span {
-      color: var(--text-mid);
-      font-size: 0.85rem;
-      text-decoration: none;
-    }
-
-    .contacto-item a:hover {
-      color: var(--green-dark);
-    }
-
-    .senales-bg {
-      background: var(--peach);
-    }
+    /* ── SEÑALES ── */
+    .senales-bg { background: var(--peach); }
 
     .senales-inner {
       display: grid;
@@ -539,6 +669,68 @@
       margin-bottom: 1.5rem;
     }
 
+    /* ── CONTACTO ── */
+    .contacto-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .contacto-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1.25rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      transition:
+        transform 0.4s var(--ease-expo),
+        box-shadow 0.4s var(--ease-expo),
+        border-color 0.3s ease;
+    }
+
+    .contacto-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(30,107,94,0.08);
+      border-color: rgba(45,139,122,0.25);
+    }
+
+    .contacto-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--green-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--green-dark);
+      transition: transform 0.4s var(--ease-expo);
+    }
+
+    .contacto-item:hover .contacto-icon {
+      transform: scale(1.08);
+    }
+
+    .contacto-item strong {
+      display: block;
+      color: var(--text-dark);
+      font-size: 0.9rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .contacto-item a,
+    .contacto-item span {
+      color: var(--text-mid);
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .contacto-item a:hover { color: var(--green-dark); }
+
+    /* ── FOOTER ── */
     footer {
       background: var(--green-dark);
       color: rgba(255,255,255,0.7);
@@ -547,14 +739,15 @@
       font-size: 0.83rem;
     }
 
-    footer strong {
-      color: white;
-    }
+    footer strong { color: white; }
 
+    /* ── SCROLL REVEAL ── */
     .reveal {
       opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.75s ease, transform 0.75s ease;
+      transform: translateY(24px);
+      transition:
+        opacity 0.8s var(--ease-expo),
+        transform 0.8s var(--ease-expo);
     }
 
     .reveal.reveal-visible {
@@ -562,37 +755,10 @@
       transform: translateY(0);
     }
 
-    @keyframes fadeSlideUp {
-      from {
-        opacity: 0;
-        transform: translateY(24px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes softFloat {
-      0% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-8px);
-      }
-      100% {
-        transform: translateY(0);
-      }
-    }
-
+    /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      nav {
-        padding: 0 1rem;
-      }
-
-      .nav-links {
-        display: none;
-      }
+      nav { padding: 0 1rem; }
+      .nav-links { display: none; }
 
       .hero {
         flex-direction: column;
@@ -601,35 +767,17 @@
         padding: 3rem 1.5rem;
       }
 
-      .hero-photo {
-        width: 210px;
-        height: 210px;
-      }
+      .hero-photo { width: 210px; height: 210px; }
+      .hero-text h1 { font-size: 2.3rem; }
+      .hero-location { justify-content: center; }
 
-      .hero-text h1 {
-        font-size: 2.3rem;
-      }
-
-      .hero-location {
-        justify-content: center;
-      }
-
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .areas-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .areas-grid { grid-template-columns: repeat(2, 1fr); }
 
       .senales-inner,
-      .contacto-grid {
-        grid-template-columns: 1fr;
-      }
+      .contacto-grid { grid-template-columns: 1fr; }
 
-      .consulta-grid {
-        grid-template-columns: 1fr;
-      }
+      .consulta-grid { grid-template-columns: 1fr; }
 
       .acceso-grid {
         grid-template-columns: 1fr;
@@ -638,51 +786,20 @@
     }
 
     @media (max-width: 560px) {
-      section {
-        padding: 3rem 1.25rem;
-      }
-
-      .stats-grid,
-      .areas-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .nav-name {
-        font-size: 0.85rem;
-      }
-
-      .nav-logo {
-        width: 44px;
-        height: 44px;
-      }
-
-      .hero-text h1 {
-        font-size: 2rem;
-      }
+      section { padding: 3rem 1.25rem; }
+      .stats-grid, .areas-grid { grid-template-columns: 1fr; }
+      .nav-name { font-size: 0.85rem; }
+      .nav-logo { width: 44px; height: 44px; }
+      .hero-text h1 { font-size: 2rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-
-      .hero-photo,
-      .hero-text,
-      .reveal,
-      .btn,
-      .stat-card,
-      .area-card,
-      .consulta-card,
-      .acceso-card,
-      .nav-logo {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
         animation: none !important;
         transition: none !important;
-        transform: none !important;
       }
-
-      .reveal {
-        opacity: 1;
-      }
+      .reveal { opacity: 1; transform: none; }
     }
   </style>
 </head>
@@ -715,38 +832,51 @@
     <div class="hero-text">
       <h1>Dr. Denis Gómez<br>Recabarren</h1>
       <p class="hero-specialty">Médico Psiquiatra Infanto Juvenil</p>
-      <p class="hero-location">📍 Viña del Mar &amp; Concón, Chile</p>
+      <p class="hero-location">
+        <span class="icon icon-sm" data-lucide="map-pin"></span>
+        Viña del Mar &amp; Concón, Chile
+      </p>
     </div>
   </div>
 
   <div class="stats">
     <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon">👨🏻‍⚕️</div>
+      <div class="stat-card reveal">
+        <div class="stat-icon">
+          <span class="icon" data-lucide="stethoscope"></span>
+        </div>
         <div class="stat-value">+20</div>
         <div class="stat-label">años de experiencia</div>
       </div>
 
-      <div class="stat-card">
-        <div class="stat-icon">👶🏻</div>
+      <div class="stat-card reveal">
+        <div class="stat-icon">
+          <span class="icon" data-lucide="baby"></span>
+        </div>
         <div class="stat-value">Desde 6 años</div>
         <div class="stat-label">rango de edad</div>
       </div>
 
-      <div class="stat-card">
-        <div class="stat-icon">🎯</div>
+      <div class="stat-card reveal">
+        <div class="stat-icon">
+          <span class="icon" data-lucide="layers"></span>
+        </div>
         <div class="stat-value">8 áreas</div>
         <div class="stat-label">especialidades</div>
       </div>
 
-      <div class="stat-card">
-        <div class="stat-icon">💻</div>
+      <div class="stat-card reveal">
+        <div class="stat-icon">
+          <span class="icon" data-lucide="monitor-smartphone"></span>
+        </div>
         <div class="stat-value">Presencial y telemedicina</div>
         <div class="stat-label">modalidades</div>
       </div>
 
-      <div class="stat-card">
-        <div class="stat-icon">🎓</div>
+      <div class="stat-card reveal">
+        <div class="stat-icon">
+          <span class="icon" data-lucide="graduation-cap"></span>
+        </div>
         <div class="stat-value">U. de Santiago</div>
         <div class="stat-label">formación académica</div>
       </div>
@@ -755,7 +885,7 @@
 
   <section id="sobre">
     <div class="section-inner">
-      <div class="sobre-text">
+      <div class="sobre-text reveal">
         <h2 class="section-title">Sobre el Dr. Denis</h2>
         <p>Con más de 20 años de experiencia en neuropsiquiatría infantil y del adolescente, el Dr. Denis Gómez Recabarren ofrece atención especializada con un enfoque cálido y multidisciplinario.</p>
         <p>Su práctica se centra en el bienestar integral de niños y adolescentes, trabajando en colaboración con familias y otros profesionales de la salud para lograr los mejores resultados terapéuticos.</p>
@@ -766,56 +896,56 @@
 
   <section id="areas" class="areas-bg">
     <div class="section-inner">
-      <div class="areas-header">
+      <div class="areas-header reveal">
         <h2 class="section-title">Áreas de atención</h2>
         <p class="section-subtitle">Atención especializada en diversas áreas de la salud mental infantil y adolescente.</p>
       </div>
 
       <div class="areas-grid">
-        <div class="area-card">
-          <div class="area-icon">🧠</div>
+        <div class="area-card reveal">
+          <div class="area-icon"><span class="icon" data-lucide="brain"></span></div>
           <h4>Trastorno del Espectro Autista</h4>
           <p>Evaluación y tratamiento especializado para niños y adolescentes con TEA, enfocado en el desarrollo de habilidades sociales y comunicativas.</p>
         </div>
 
-        <div class="area-card">
-          <div class="area-icon">⚡</div>
+        <div class="area-card reveal">
+          <div class="area-icon"><span class="icon" data-lucide="zap"></span></div>
           <h4>Trastorno Conductual / TDAH</h4>
           <p>Diagnóstico y manejo integral del TDAH y trastornos de conducta, con estrategias personalizadas para mejorar la atención y el comportamiento.</p>
         </div>
 
-        <div class="area-card">
-          <div class="area-icon">🫶</div>
+        <div class="area-card reveal">
+          <div class="area-icon"><span class="icon" data-lucide="heart"></span></div>
           <h4>Trastorno del Ánimo</h4>
           <p>Tratamiento de depresión, trastorno bipolar y otros trastornos del ánimo en población infantojuvenil con enfoque multidisciplinario.</p>
         </div>
 
-        <div class="area-card">
-          <div class="area-icon">🛡️</div>
+        <div class="area-card reveal">
+          <div class="area-icon"><span class="icon" data-lucide="shield"></span></div>
           <h4>Trastorno de Estrés Postraumático</h4>
           <p>Atención especializada para trauma y TEPT en niños y adolescentes, con técnicas terapéuticas adaptadas a cada edad.</p>
         </div>
 
-        <div class="area-card">
-          <div class="area-icon">🌙</div>
+        <div class="area-card reveal">
+          <div class="area-icon"><span class="icon" data-lucide="moon"></span></div>
           <h4>Trastorno del Sueño</h4>
           <p>Evaluación y tratamiento de problemas de sueño en población infantojuvenil, mejorando la calidad del descanso y el bienestar.</p>
         </div>
 
-        <div class="area-card">
-          <div class="area-icon">🍽️</div>
+        <div class="area-card reveal">
+          <div class="area-icon"><span class="icon" data-lucide="utensils"></span></div>
           <h4>Trastorno de la Conducta Alimentaria</h4>
           <p>Manejo integral de anorexia, bulimia y otros TCA con enfoque en la recuperación física y emocional del paciente.</p>
         </div>
 
-        <div class="area-card">
-          <div class="area-icon">😰</div>
+        <div class="area-card reveal">
+          <div class="area-icon"><span class="icon" data-lucide="wind"></span></div>
           <h4>Trastorno de Ansiedad</h4>
           <p>Tratamiento de ansiedad generalizada, fobias y trastornos relacionados con técnicas cognitivo-conductuales adaptadas.</p>
         </div>
 
-        <div class="area-card">
-          <div class="area-icon">👤</div>
+        <div class="area-card reveal">
+          <div class="area-icon"><span class="icon" data-lucide="user"></span></div>
           <h4>Trastorno de la Personalidad</h4>
           <p>Evaluación y tratamiento de trastornos de personalidad en adolescentes, promoviendo el desarrollo saludable de la identidad.</p>
         </div>
@@ -825,14 +955,19 @@
 
   <section id="consulta">
     <div class="section-inner">
-      <h2 class="section-title" style="text-align:center">Modalidad de consulta</h2>
-      <p class="section-subtitle" style="text-align:center; margin-bottom:2.5rem">Opciones de atención diseñadas para tu comodidad y la de tu familia.</p>
+      <h2 class="section-title reveal" style="text-align:center">Modalidad de consulta</h2>
+      <p class="section-subtitle reveal" style="text-align:center; margin-bottom:2.5rem">Opciones de atención diseñadas para tu comodidad y la de tu familia.</p>
 
       <div class="consulta-grid">
-        <div class="consulta-card">
-          <div class="consulta-card-icon">🖥️</div>
+        <div class="consulta-card reveal">
+          <div class="consulta-card-icon">
+            <span class="icon icon-lg" data-lucide="monitor"></span>
+          </div>
           <h3>Telemedicina</h3>
-          <p class="place">Consulta online desde donde estés</p>
+          <p class="place">
+            <span class="icon icon-sm" data-lucide="wifi"></span>
+            Consulta online desde donde estés
+          </p>
 
           <div class="price-row">
             <span class="label">Primera consulta online</span>
@@ -841,7 +976,6 @@
               <span class="dur"> · 45 min</span>
             </span>
           </div>
-
           <div class="price-row">
             <span class="label">Control estándar</span>
             <span>
@@ -849,7 +983,6 @@
               <span class="dur"> · 35 min</span>
             </span>
           </div>
-
           <div class="price-row">
             <span class="label">Control breve</span>
             <span>
@@ -859,13 +992,21 @@
           </div>
 
           <br>
-          <a class="btn btn-primary" href="https://ff.healthatom.io/INQdgL" target="_blank" rel="noopener">Reservar hora</a>
+          <a class="btn btn-primary" href="https://ff.healthatom.io/INQdgL" target="_blank" rel="noopener">
+            <span class="icon icon-sm" data-lucide="calendar"></span>
+            Reservar hora
+          </a>
         </div>
 
-        <div class="consulta-card">
-          <div class="consulta-card-icon">📍</div>
+        <div class="consulta-card reveal">
+          <div class="consulta-card-icon">
+            <span class="icon icon-lg" data-lucide="map-pin"></span>
+          </div>
           <h3>Centro Médico Cenepsi</h3>
-          <p class="place">7 Norte 645, Edif. Centro Libertad, Of. 305, Viña del Mar</p>
+          <p class="place">
+            <span class="icon icon-sm" data-lucide="navigation"></span>
+            7 Norte 645, Edif. Centro Libertad, Of. 305, Viña del Mar
+          </p>
 
           <div class="price-row">
             <span class="label">Primera consulta</span>
@@ -873,15 +1014,26 @@
           </div>
 
           <br>
-          <a class="btn btn-primary" href="https://ff.healthatom.io/INQdgL" target="_blank" rel="noopener">Reservar hora</a>
+          <a class="btn btn-primary" href="https://ff.healthatom.io/INQdgL" target="_blank" rel="noopener">
+            <span class="icon icon-sm" data-lucide="calendar"></span>
+            Reservar hora
+          </a>
           <br><br>
-          <a class="btn btn-secondary" href="https://wa.me/56950057586" target="_blank" rel="noopener">💬 WhatsApp</a>
+          <a class="btn btn-secondary" href="https://wa.me/56950057586" target="_blank" rel="noopener">
+            <span class="icon icon-sm" data-lucide="message-circle"></span>
+            WhatsApp
+          </a>
         </div>
 
-        <div class="consulta-card">
-          <div class="consulta-card-icon">📍</div>
+        <div class="consulta-card reveal">
+          <div class="consulta-card-icon">
+            <span class="icon icon-lg" data-lucide="map-pin"></span>
+          </div>
           <h3>Centro Médico Cenit</h3>
-          <p class="place">2 Oriente 52, Viña del Mar</p>
+          <p class="place">
+            <span class="icon icon-sm" data-lucide="navigation"></span>
+            2 Oriente 52, Viña del Mar
+          </p>
 
           <div class="price-row">
             <span class="label">Primera consulta</span>
@@ -889,9 +1041,15 @@
           </div>
 
           <br>
-          <a class="btn btn-primary" href="https://ff.healthatom.io/INQdgL" target="_blank" rel="noopener">Reservar hora</a>
+          <a class="btn btn-primary" href="https://ff.healthatom.io/INQdgL" target="_blank" rel="noopener">
+            <span class="icon icon-sm" data-lucide="calendar"></span>
+            Reservar hora
+          </a>
           <br><br>
-          <a class="btn btn-secondary" href="https://wa.me/56932655021" target="_blank" rel="noopener">💬 WhatsApp</a>
+          <a class="btn btn-secondary" href="https://wa.me/56932655021" target="_blank" rel="noopener">
+            <span class="icon icon-sm" data-lucide="message-circle"></span>
+            WhatsApp
+          </a>
         </div>
       </div>
     </div>
@@ -899,31 +1057,46 @@
 
   <section id="acceso" class="acceso-bg">
     <div class="section-inner">
-      <div class="acceso-header">
+      <div class="acceso-header reveal">
         <h2 class="section-title">¿Qué necesitas?</h2>
         <p class="section-subtitle">Accede rápidamente a los formularios necesarios para tu atención.</p>
       </div>
 
       <div class="acceso-grid">
-        <div class="acceso-card">
-          <div class="acceso-icon">📋</div>
+        <div class="acceso-card reveal">
+          <div class="acceso-icon">
+            <span class="icon icon-lg" data-lucide="clipboard-list"></span>
+          </div>
           <h3>Formulario de ingreso</h3>
           <p>Completa el formulario previo a tu primera consulta.</p>
-          <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSeE3DP7Kl3jeViFF_THN7si5egWX2LpDdFmYktH9U3JfsfkOQ/viewform?usp=sharing&ouid=101569395807882326753" target="_blank" rel="noopener">Completar formulario</a>
+          <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSeE3DP7Kl3jeViFF_THN7si5egWX2LpDdFmYktH9U3JfsfkOQ/viewform?usp=sharing&ouid=101569395807882326753" target="_blank" rel="noopener">
+            <span class="icon icon-sm" data-lucide="external-link"></span>
+            Completar formulario
+          </a>
         </div>
 
-        <div class="acceso-card">
-          <div class="acceso-icon">💬</div>
+        <div class="acceso-card reveal">
+          <div class="acceso-icon">
+            <span class="icon icon-lg" data-lucide="message-square"></span>
+          </div>
           <h3>Seguimiento post-consulta</h3>
           <p>Comparte tu evolución después de la consulta.</p>
-          <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSdVc91jkXNRwvQ794q4pp9hMK2YWDcH0ec6PpHrHeNngTcGRw/viewform?usp=sharing&ouid=101569395807882326753" target="_blank" rel="noopener">Enviar seguimiento</a>
+          <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSdVc91jkXNRwvQ794q4pp9hMK2YWDcH0ec6PpHrHeNngTcGRw/viewform?usp=sharing&ouid=101569395807882326753" target="_blank" rel="noopener">
+            <span class="icon icon-sm" data-lucide="external-link"></span>
+            Enviar seguimiento
+          </a>
         </div>
 
-        <div class="acceso-card">
-          <div class="acceso-icon">📅</div>
+        <div class="acceso-card reveal">
+          <div class="acceso-icon">
+            <span class="icon icon-lg" data-lucide="calendar-plus"></span>
+          </div>
           <h3>Reservar hora</h3>
           <p>Agenda tu consulta de forma rápida y sencilla.</p>
-          <a class="btn btn-primary" href="https://ff.healthatom.io/INQdgL" target="_blank" rel="noopener">Reservar hora</a>
+          <a class="btn btn-primary" href="https://ff.healthatom.io/INQdgL" target="_blank" rel="noopener">
+            <span class="icon icon-sm" data-lucide="calendar"></span>
+            Reservar hora
+          </a>
         </div>
       </div>
     </div>
@@ -932,15 +1105,18 @@
   <section class="senales-bg">
     <div class="section-inner">
       <div class="senales-inner">
-        <div class="senales-visual">
+        <div class="senales-visual reveal" style="animation: slideInLeft 0.9s var(--ease-expo) 0.1s both;">
           <img src="senales-que-importan.png" alt="Señales que importan" style="width:100%; border-radius:16px; display:block;"/>
         </div>
 
-        <div class="senales-text">
+        <div class="senales-text reveal" style="animation: slideInRight 0.9s var(--ease-expo) 0.2s both;">
           <h2>Señales que importan</h2>
           <p class="sub">Charlas de salud mental infanto-juvenil para comunidades educativas</p>
           <p>El Dr. Gómez lleva charlas de salud mental a colegios y comunidades educativas de la Región de Valparaíso. Si eres docente, directivo o apoderado y quieres traer esta iniciativa a tu establecimiento, contáctanos.</p>
-          <a class="btn btn-primary" style="display:inline-flex; align-items:center; gap:0.5rem; width:auto;" href="mailto:gestion.dr.gomez@gmail.com">✉️ Escribir al email</a>
+          <a class="btn btn-primary" style="width:auto;" href="mailto:gestion.dr.gomez@gmail.com">
+            <span class="icon icon-sm" data-lucide="mail"></span>
+            Escribir al email
+          </a>
         </div>
       </div>
     </div>
@@ -948,36 +1124,44 @@
 
   <section id="contacto">
     <div class="section-inner">
-      <h2 class="section-title">Contacto</h2>
-      <p class="section-subtitle" style="margin-bottom:2rem">Comunícate directamente con los centros de atención.</p>
+      <h2 class="section-title reveal">Contacto</h2>
+      <p class="section-subtitle reveal" style="margin-bottom:2rem">Comunícate directamente con los centros de atención.</p>
 
       <div class="contacto-grid">
-        <div class="contacto-item">
-          <div class="contacto-icon">📞</div>
+        <div class="contacto-item reveal">
+          <div class="contacto-icon">
+            <span class="icon" data-lucide="phone"></span>
+          </div>
           <div>
             <strong>Centro Médico Cenit</strong>
             <a href="https://wa.me/56932655021" target="_blank" rel="noopener">+56 9 3265 5021</a>
           </div>
         </div>
 
-        <div class="contacto-item">
-          <div class="contacto-icon">📞</div>
+        <div class="contacto-item reveal">
+          <div class="contacto-icon">
+            <span class="icon" data-lucide="phone"></span>
+          </div>
           <div>
             <strong>Centro Médico Cenepsi</strong>
             <a href="https://wa.me/56950057586" target="_blank" rel="noopener">+56 9 5005 7586</a>
           </div>
         </div>
 
-        <div class="contacto-item">
-          <div class="contacto-icon">✉️</div>
+        <div class="contacto-item reveal">
+          <div class="contacto-icon">
+            <span class="icon" data-lucide="mail"></span>
+          </div>
           <div>
             <strong>Email – Señales que importan</strong>
             <a href="mailto:gestion.dr.gomez@gmail.com">gestion.dr.gomez@gmail.com</a>
           </div>
         </div>
 
-        <div class="contacto-item">
-          <div class="contacto-icon">📅</div>
+        <div class="contacto-item reveal">
+          <div class="contacto-icon">
+            <span class="icon" data-lucide="calendar"></span>
+          </div>
           <div>
             <strong>Reservas online</strong>
             <a href="https://ff.healthatom.io/INQdgL" target="_blank" rel="noopener">Reservar hora aquí</a>
@@ -993,28 +1177,25 @@
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const elements = document.querySelectorAll(
-        'section, .stat-card, .area-card, .consulta-card, .acceso-card, .contacto-item, .senales-visual, .senales-text'
-      );
+    lucide.createIcons();
 
-      elements.forEach(function (el, index) {
-        el.classList.add('reveal');
-        el.style.transitionDelay = Math.min((index % 5) * 80, 320) + 'ms';
-      });
+    document.addEventListener('DOMContentLoaded', function () {
+      const reveals = document.querySelectorAll('.reveal');
 
       const observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
+        entries.forEach(function (entry, i) {
           if (entry.isIntersecting) {
+            const siblings = Array.from(entry.target.parentElement.querySelectorAll('.reveal'));
+            const idx = siblings.indexOf(entry.target);
+            const delay = Math.min(idx * 70, 280);
+            entry.target.style.transitionDelay = delay + 'ms';
             entry.target.classList.add('reveal-visible');
             observer.unobserve(entry.target);
           }
         });
-      }, {
-        threshold: 0.12
-      });
+      }, { threshold: 0.1 });
 
-      elements.forEach(function (el) {
+      reveals.forEach(function (el) {
         observer.observe(el);
       });
     });
