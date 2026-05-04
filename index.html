@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Dr. Denis Gómez Recabarren | Psiquiatra Infanto Juvenil</title>
+  <meta name="description" content="Atención en psiquiatría infantil y adolescente en Viña del Mar y Concón. Charlas de salud mental infanto-juvenil para comunidades educativas: Señales que importan.">
+  <meta name="keywords" content="Dr Denis Gómez Recabarren, psiquiatra infantil, psiquiatra adolescente, salud mental infantil, salud mental adolescente, Concón, Reñaca, Viña del Mar, Señales que importan">
+
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --green-dark: #1e6b5e;
+      --green-mid: #2d8b7a;
+      --green-light: #e8f4f1;
+      --peach: #f5ece3;
+      --peach-dark: #e8d5c0;
+      --text-dark: #1a2e2a;
+      --text-mid: #4a6560;
+      --text-light: #7a9490;
+      --white: #ffffff;
+      --card-bg: #ffffff;
+      --border: #e2eeeb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .nav-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--green-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+
+    .nav-name {
+      font-weight: 500;
+      font-size: 1rem;
+      color: var(--green-dark);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-mid);
+      font-size: 0.9rem;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--green-dark);
+    }
+
+    .hero {
+      padding: 5rem 2rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      min-height: 500px;
+    }
+
+    .hero-photo {
+      flex-shrink: 0;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: var(--green-light);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      box-shadow: 0 8px 32px rgba(30,107,94,0.12);
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .hero-text h1 {
+      font-family: 'Lora', serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--green-dark);
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-specialty {
+      color: var(--text-mid);
+      font-size: 1.1rem;
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-location {
+      color: var(--text-light);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .stats {
+      background: var(--green-light);
+      padding: 3rem 2rem;
+    }
+
+    .stats-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+
+    .stat-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+      font-family: 'Lora', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--green-dark);
+      line-height: 1.2;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-top: 0.25rem;
+    }
+
+    section {
+      padding: 4rem 2rem;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: 'Lora', serif;
+      font-size: 2rem;
+      color: var(--green-dark);
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      color: var(--text-mid);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .sobre-text p {
+      color: var(--text-mid);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+      max-width: 680px;
+    }
+
+    .areas-bg {
+      background: var(--green-light);
+    }
+
+    .areas-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .areas-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .area-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+
+    .area-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--green-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .area-card h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .area-card p {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
+    .consulta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .consulta-card {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: box-shadow 0.2s;
+    }
+
+    .consulta-card:hover {
+      box-shadow: 0 8px 24px rgba(30,107,94,0.1);
+    }
+
+    .consulta-card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--green-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .consulta-card h3 {
+      font-family: 'Lora', serif;
+      color: var(--green-dark);
+      font-size: 1.2rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .consulta-card .place {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      margin-bottom: 1.25rem;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-top: 1px solid var(--border);
+      font-size: 0.88rem;
+      gap: 1rem;
+    }
+
+    .price-row .label {
+      color: var(--text-mid);
+    }
+
+    .price-row .price {
+      font-weight: 600;
+      color: var(--green-dark);
+      white-space: nowrap;
+    }
+
+    .price-row .dur {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      white-space: nowrap;
+    }
+
+    .acceso-bg {
+      background: var(--peach);
+    }
+
+    .acceso-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .acceso-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .acceso-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .acceso-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 28px rgba(30,107,94,0.13);
+    }
+
+    .acceso-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: var(--green-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin: 0 auto 1rem;
+    }
+
+    .acceso-card h3 {
+      font-family: 'Lora', serif;
+      color: var(--green-dark);
+      font-size: 1.1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .acceso-card p {
+      font-size: 0.83rem;
+      color: var(--text-mid);
+      margin-bottom: 1.5rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 1.5rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--green-dark);
+      color: var(--white);
+      width: 100%;
+      text-align: center;
+    }
+
+    .btn-primary:hover {
+      background: var(--green-mid);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--green-dark);
+      border: 1.5px solid var(--green-dark);
+      width: 100%;
+      text-align: center;
+    }
+
+    .btn-secondary:hover {
+      background: var(--green-light);
+    }
+
+    .contacto-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .contacto-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .contacto-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--green-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .contacto-item strong {
+      display: block;
+      color: var(--text-dark);
+      font-size: 0.9rem;
+    }
+
+    .contacto-item a,
+    .contacto-item span {
+      color: var(--text-mid);
+      font-size: 0.85rem;
+      text-decoration: none;
+    }
+
+    .contacto-item a:hover {
+      color: var(--green-dark);
+    }
+
+    .senales-bg {
+      background: var(--peach);
+    }
+
+    .senales-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .senales-visual {
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .senales-text h2 {
+      font-family: 'Lora', serif;
+      font-size: 2rem;
+      color: var(--green-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .senales-text .sub {
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: 1rem;
+    }
+
+    .senales-text p {
+      color: var(--text-mid);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    footer {
+      background: var(--green-dark);
+      color: rgba(255,255,255,0.7);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.83rem;
+    }
+
+    footer strong {
+      color: white;
+    }
+
+    @media (max-width: 900px) {
+      nav {
+        padding: 0 1rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+        padding: 3rem 1.5rem;
+      }
+
+      .hero-photo {
+        width: 210px;
+        height: 210px;
+      }
+
+      .hero-text h1 {
+        font-size: 2.3rem;
+      }
+
+      .hero-location {
+        justify-content: center;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .areas-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .senales-inner,
+      .contacto-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .consulta-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .acceso-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      section {
+        padding: 3rem 1.25rem;
+      }
+
+      .stats-grid,
+      .areas-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-name {
+        font-size: 0.9rem;
+      }
+
+      .hero-text h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a class="nav-brand" href="#inicio">
+      <div class="nav-logo">🌿</div>
+      <span class="nav-name">Dr. Denis Gómez Recabarren</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#sobre">Sobre mí</a></li>
+      <li><a href="#areas">Áreas de atención</a></li>
+      <li><a href="#consulta">Consulta</a></li>
+      <li><a href="#acceso">Formularios</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <div id="inicio" class="hero">
+    <div class="hero-photo">
+      <img src="foto-doctor.png" alt="Dr. Denis Gómez Recabarren"/>
+    </div>
+    <div class="hero-text">
+      <h1>Dr. Denis Gómez<br>Recabarren</h1>
+      <p class="hero-specialty">Médico Psiquiatra Infanto Juvenil</p>
+      <p class="hero-location">📍 Viña del Mar &amp; Concón, Chile</p>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">👨🏻‍⚕️</div>
+        <div class="stat-value">+20</div>
+        <div class="stat-label">años de experiencia</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">👶🏻</div>
+        <div class="stat-value">Desde 6 años</div>
+        <div class="stat-label">rango de edad</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-value">8 áreas</div>
+        <div class="stat-label">especialidades</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">💻</div>
+        <div class="stat-value">Presencial y telemedicina</div>
+        <div class="stat-label">modalidades</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🎓</div>
+        <div class="stat-value">U. de Santiago</div>
+        <div class="stat-label">formación académica</div>
+      </div>
+    </div>
+  </div>
+
+  <section id="sobre">
+    <div class="section-inner">
+      <div class="sobre-text">
+        <h2 class="section-title">Sobre el Dr. Denis</h2>
+        <p>Con más de 20 años de experiencia en neuropsiquiatría infantil y del adolescente, el Dr. Denis Gómez Recabarren ofrece atención especializada con un enfoque cálido y multidisciplinario.</p>
+        <p>Su práctica se centra en el bienestar integral de niños y adolescentes, trabajando en colaboración con familias y otros profesionales de la salud para lograr los mejores resultados terapéuticos.</p>
+        <p>Cada consulta es personalizada, considerando las necesidades únicas de cada paciente y su entorno familiar, con el objetivo de promover un desarrollo saludable y equilibrado.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="areas" class="areas-bg">
+    <div class="section-inner">
+      <div class="areas-header">
+        <h2 class="section-title">Áreas de atención</h2>
+        <p class="section-subtitle">Atención especializada en diversas áreas de la salud mental infantil y adolescente.</p>
+      </div>
+
+      <div class="areas-grid">
+        <div class="area-card">
+          <div class="area-icon">🧠</div>
+          <h4>Trastorno del Espectro Autista</h4>
+          <p>Evaluación y tratamiento especializado para niños y adolescentes con TEA, enfocado en el desarrollo de habilidades sociales y comunicativas.</p>
+        </div>
+
+        <div class="area-card">
+          <div class="area-icon">⚡</div>
+          <h4>Trastorno Conductual / TDAH</h4>
+          <p>Diagnóstico y manejo integral del TDAH y trastornos de conducta, con estrategias personalizadas para mejorar la atención y el comportamiento.</p>
+        </div>
+
+        <div class="area-card">
+          <div class="area-icon">🫶</div>
+          <h4>Trastorno del Ánimo</h4>
+          <p>Tratamiento de depresión, trastorno bipolar y otros trastornos del ánimo en población infantojuvenil con enfoque multidisciplinario.</p>
+        </div>
+
+        <div class="area-card">
+          <div class="area-icon">🛡️</div>
+          <h4>Trastorno de Estrés Postraumático</h4>
+          <p>Atención especializada para trauma y TEPT en niños y adolescentes, con técnicas terapéuticas adaptadas a cada edad.</p>
+        </div>
+
+        <div class="area-card">
+          <div class="area-icon">🌙</div>
+          <h4>Trastorno del Sueño</h4>
+          <p>Evaluación y tratamiento de problemas de sueño en población infantojuvenil, mejorando la calidad del descanso y el bienestar.</p>
+        </div>
+
+        <div class="area-card">
+          <div class="area-icon">🍽️</div>
+          <h4>Trastorno de la Conducta Alimentaria</h4>
+          <p>Manejo integral de anorexia, bulimia y otros TCA con enfoque en la recuperación física y emocional del paciente.</p>
+        </div>
+
+        <div class="area-card">
+          <div class="area-icon">😰</div>
+          <h4>Trastorno de Ansiedad</h4>
+          <p>Tratamiento de ansiedad generalizada, fobias y trastornos relacionados con técnicas cognitivo-conductuales adaptadas.</p>
+        </div>
+
+        <div class="area-card">
+          <div class="area-icon">👤</div>
+          <h4>Trastorno de la Personalidad</h4>
+          <p>Evaluación y tratamiento de trastornos de personalidad en adolescentes, promoviendo el desarrollo saludable de la identidad.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="consulta">
+    <div class="section-inner">
+      <h2 class="section-title" style="text-align:center">Modalidad de consulta</h2>
+      <p class="section-subtitle" style="text-align:center; margin-bottom:2.5rem">Opciones de atención diseñadas para tu comodidad y la de tu familia.</p>
+
+      <div class="consulta-grid">
+        <div class="consulta-card">
+          <div class="consulta-card-icon">🖥️</div>
+          <h3>Telemedicina</h3>
+          <p class="place">Consulta online desde donde estés</p>
+
+          <div class="price-row">
+            <span class="label">Primera consulta online</span>
+            <span>
+              <span class="price">$85.000</span>
+              <span class="dur"> · 45 min</span>
+            </span>
+          </div>
+
+          <div class="price-row">
+            <span class="label">Control estándar</span>
+            <span>
+              <span class="price">$70.000</span>
+              <span class="dur"> · 35 min</span>
+            </span>
+          </div>
+
+          <div class="price-row">
+            <span class="label">Control breve</span>
+            <span>
+              <span class="price">$55.000</span>
+              <span class="dur"> · 25 min</span>
+            </span>
+          </div>
+
+          <br>
+          <a class="btn btn-primary" href="https://ff.healthatom.io/INQdgL" target="_blank" rel="noopener">Reservar hora</a>
+        </div>
+
+        <div class="consulta-card">
+          <div class="consulta-card-icon">📍</div>
+          <h3>Centro Médico Cenepsi</h3>
+          <p class="place">7 Norte 645, Edif. Centro Libertad, Of. 305, Viña del Mar</p>
+
+          <div class="price-row">
+            <span class="label">Primera consulta</span>
+            <span class="price">$85.000</span>
+          </div>
+
+          <br>
+          <a class="btn btn-primary" href="https://ff.healthatom.io/INQdgL" target="_blank" rel="noopener">Reservar hora</a>
+          <br><br>
+          <a class="btn btn-secondary" href="https://wa.me/56950057586" target="_blank" rel="noopener">💬 WhatsApp</a>
+        </div>
+
+        <div class="consulta-card">
+          <div class="consulta-card-icon">📍</div>
+          <h3>Centro Médico Cenit</h3>
+          <p class="place">2 Oriente 52, Viña del Mar</p>
+
+          <div class="price-row">
+            <span class="label">Primera consulta</span>
+            <span class="price">$85.000</span>
+          </div>
+
+          <br>
+          <a class="btn btn-primary" href="https://ff.healthatom.io/INQdgL" target="_blank" rel="noopener">Reservar hora</a>
+          <br><br>
+          <a class="btn btn-secondary" href="https://wa.me/56932655021" target="_blank" rel="noopener">💬 WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="acceso" class="acceso-bg">
+    <div class="section-inner">
+      <div class="acceso-header">
+        <h2 class="section-title">¿Qué necesitas?</h2>
+        <p class="section-subtitle">Accede rápidamente a los formularios necesarios para tu atención.</p>
+      </div>
+
+      <div class="acceso-grid">
+        <div class="acceso-card">
+          <div class="acceso-icon">📋</div>
+          <h3>Formulario de ingreso</h3>
+          <p>Completa el formulario previo a tu primera consulta.</p>
+          <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSeE3DP7Kl3jeViFF_THN7si5egWX2LpDdFmYktH9U3JfsfkOQ/viewform?usp=sharing&ouid=101569395807882326753" target="_blank" rel="noopener">Completar formulario</a>
+        </div>
+
+        <div class="acceso-card">
+          <div class="acceso-icon">💬</div>
+          <h3>Seguimiento post-consulta</h3>
+          <p>Comparte tu evolución después de la consulta.</p>
+          <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSdVc91jkXNRwvQ794q4pp9hMK2YWDcH0ec6PpHrHeNngTcGRw/viewform?usp=sharing&ouid=101569395807882326753" target="_blank" rel="noopener">Enviar seguimiento</a>
+        </div>
+
+        <div class="acceso-card">
+          <div class="acceso-icon">📅</div>
+          <h3>Reservar hora</h3>
+          <p>Agenda tu consulta de forma rápida y sencilla.</p>
+          <a class="btn btn-primary" href="https://ff.healthatom.io/INQdgL" target="_blank" rel="noopener">Reservar hora</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="senales-bg">
+    <div class="section-inner">
+      <div class="senales-inner">
+        <div class="senales-visual">
+          <img src="senales-que-importan.png" alt="Señales que importan" style="width:100%; border-radius:16px; display:block;"/>
+        </div>
+
+        <div class="senales-text">
+          <h2>Señales que importan</h2>
+          <p class="sub">Charlas de salud mental infanto-juvenil para comunidades educativas</p>
+          <p>El Dr. Gómez lleva charlas de salud mental a colegios y comunidades educativas de la Región de Valparaíso. Si eres docente, directivo o apoderado y quieres traer esta iniciativa a tu establecimiento, contáctanos.</p>
+          <a class="btn btn-primary" style="display:inline-flex; align-items:center; gap:0.5rem; width:auto;" href="mailto:gestion.dr.gomez@gmail.com">✉️ Escribir al email</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto">
+    <div class="section-inner">
+      <h2 class="section-title">Contacto</h2>
+      <p class="section-subtitle" style="margin-bottom:2rem">Comunícate directamente con los centros de atención.</p>
+
+      <div class="contacto-grid">
+        <div class="contacto-item">
+          <div class="contacto-icon">📞</div>
+          <div>
+            <strong>Centro Médico Cenit</strong>
+            <a href="https://wa.me/56932655021" target="_blank" rel="noopener">+56 9 3265 5021</a>
+          </div>
+        </div>
+
+        <div class="contacto-item">
+          <div class="contacto-icon">📞</div>
+          <div>
+            <strong>Centro Médico Cenepsi</strong>
+            <a href="https://wa.me/56950057586" target="_blank" rel="noopener">+56 9 5005 7586</a>
+          </div>
+        </div>
+
+        <div class="contacto-item">
+          <div class="contacto-icon">✉️</div>
+          <div>
+            <strong>Email – Señales que importan</strong>
+            <a href="mailto:gestion.dr.gomez@gmail.com">gestion.dr.gomez@gmail.com</a>
+          </div>
+        </div>
+
+        <div class="contacto-item">
+          <div class="contacto-icon">📅</div>
+          <div>
+            <strong>Reservas online</strong>
+            <a href="https://ff.healthatom.io/INQdgL" target="_blank" rel="noopener">Reservar hora aquí</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>Dr. Denis Gómez Recabarren</strong> · Médico Psiquiatra Infanto Juvenil</p>
+    <p style="margin-top:0.4rem">Viña del Mar &amp; Concón, Chile · © 2025</p>
+  </footer>
+
+</body>
+</html>
