@@ -21,7 +21,6 @@
       --text-mid: #4a6560;
       --text-light: #7a9490;
       --white: #ffffff;
-      --card-bg: #ffffff;
       --border: #e2eeeb;
     }
 
@@ -29,6 +28,10 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -70,6 +73,7 @@
       background: transparent;
       flex-shrink: 0;
       box-shadow: 0 2px 10px rgba(30,107,94,0.12);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .nav-logo img {
@@ -77,6 +81,11 @@
       height: 100%;
       object-fit: cover;
       display: block;
+    }
+
+    .nav-brand:hover .nav-logo {
+      transform: scale(1.06);
+      box-shadow: 0 4px 16px rgba(30,107,94,0.18);
     }
 
     .nav-name {
@@ -123,8 +132,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 5rem;
       box-shadow: 0 8px 32px rgba(30,107,94,0.12);
+      animation: softFloat 6s ease-in-out infinite;
     }
 
     .hero-photo img {
@@ -132,6 +141,10 @@
       height: 100%;
       object-fit: cover;
       object-position: center top;
+    }
+
+    .hero-text {
+      animation: fadeSlideUp 0.9s ease-out both;
     }
 
     .hero-text h1 {
@@ -177,6 +190,12 @@
       padding: 1.5rem 1rem;
       text-align: center;
       box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 28px rgba(30,107,94,0.13);
     }
 
     .stat-icon {
@@ -247,6 +266,12 @@
       border-radius: 16px;
       padding: 1.5rem;
       box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .area-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 28px rgba(30,107,94,0.13);
     }
 
     .area-icon {
@@ -284,11 +309,12 @@
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 2rem;
-      transition: box-shadow 0.2s;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .consulta-card:hover {
-      box-shadow: 0 8px 24px rgba(30,107,94,0.1);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 28px rgba(30,107,94,0.13);
     }
 
     .consulta-card-icon {
@@ -365,12 +391,12 @@
       padding: 2rem;
       text-align: center;
       box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .acceso-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 28px rgba(30,107,94,0.13);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 28px rgba(30,107,94,0.13);
     }
 
     .acceso-icon {
@@ -405,8 +431,13 @@
       font-size: 0.88rem;
       font-weight: 500;
       text-decoration: none;
-      transition: all 0.2s;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
       cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(30,107,94,0.18);
     }
 
     .btn-primary {
@@ -520,6 +551,40 @@
       color: white;
     }
 
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+
+    .reveal.reveal-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes softFloat {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+
     @media (max-width: 900px) {
       nav {
         padding: 0 1rem;
@@ -595,6 +660,30 @@
         font-size: 2rem;
       }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .hero-photo,
+      .hero-text,
+      .reveal,
+      .btn,
+      .stat-card,
+      .area-card,
+      .consulta-card,
+      .acceso-card,
+      .nav-logo {
+        animation: none !important;
+        transition: none !important;
+        transform: none !important;
+      }
+
+      .reveal {
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 
@@ -603,7 +692,7 @@
   <nav>
     <a class="nav-brand" href="#inicio">
       <div class="nav-logo">
-        <img src="8AF2C506-381E-4EF2-8409-C759F1882A80.png" alt="Logo Dr. Denis Gómez Recabarren">
+        <img src="./Copia%20de%20logo-dr-denis.png" alt="Logo Dr. Denis Gómez Recabarren">
       </div>
       <span class="nav-name">Dr. Denis Gómez Recabarren</span>
     </a>
@@ -902,6 +991,34 @@
     <p><strong>Dr. Denis Gómez Recabarren</strong> · Médico Psiquiatra Infanto Juvenil</p>
     <p style="margin-top:0.4rem">Viña del Mar &amp; Concón, Chile · © 2025</p>
   </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const elements = document.querySelectorAll(
+        'section, .stat-card, .area-card, .consulta-card, .acceso-card, .contacto-item, .senales-visual, .senales-text'
+      );
+
+      elements.forEach(function (el, index) {
+        el.classList.add('reveal');
+        el.style.transitionDelay = Math.min((index % 5) * 80, 320) + 'ms';
+      });
+
+      const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.12
+      });
+
+      elements.forEach(function (el) {
+        observer.observe(el);
+      });
+    });
+  </script>
 
 </body>
 </html>
