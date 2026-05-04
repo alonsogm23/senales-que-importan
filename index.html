@@ -59,16 +59,24 @@
       text-decoration: none;
     }
 
-    .nav-logo {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: var(--green-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-    }
+  .nav-logo {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  flex-shrink: 0;
+}
+
+.nav-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
     .nav-name {
       font-weight: 500;
@@ -587,10 +595,12 @@
 <body>
 
   <nav>
-    <a class="nav-brand" href="#inicio">
-      <div class="nav-logo">🌿</div>
-      <span class="nav-name">Dr. Denis Gómez Recabarren</span>
-    </a>
+<a class="nav-brand" href="#inicio">
+  <div class="nav-logo">
+    <img src="logo-dr-denis.png" alt="Logo Dr. Denis Gómez Recabarren">
+  </div>
+  <span class="nav-name">Dr. Denis Gómez Recabarren</span>
+</a>
     <ul class="nav-links">
       <li><a href="#inicio">Inicio</a></li>
       <li><a href="#sobre">Sobre mí</a></li>
