@@ -11,7 +11,15 @@
   <meta name="keywords" content="Dr Denis Gómez Recabarren, Denis Gómez Recabarren, psiquiatra infantil Viña del Mar, psiquiatra adolescente Viña del Mar, psiquiatra infanto juvenil, psiquiatría infantil, salud mental infantil, salud mental adolescente, Concón, Reñaca, Viña del Mar, Señales que importan">
 
   <meta name="robots" content="index, follow">
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-959QK8Z8ZG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
+    gtag('config', 'G-959QK8Z8ZG');
+  </script>
   <link rel="canonical" href="https://drdenisgomez.cl/">
 
   <link rel="icon" type="image/png" href="https://drdenisgomez.cl/favicon.png">
@@ -2065,6 +2073,56 @@
       });
     }
 
+    document.addEventListener('click', function (event) {
+      const link = event.target.closest('a');
+      if (!link || typeof gtag !== 'function') return;
+
+      const href = link.getAttribute('href') || '';
+      const text = (link.textContent || '').toLowerCase();
+
+      if (href.includes('healthatom.io')) {
+        gtag('event', 'click_reservar_hora', {
+          event_category: 'interaccion',
+          event_label: 'Reserva Healthatom'
+        });
+      }
+
+      if (href.includes('wa.me')) {
+        gtag('event', 'click_whatsapp', {
+          event_category: 'interaccion',
+          event_label: href
+        });
+      }
+
+      if (href.includes('docs.google.com/forms') && text.includes('completar')) {
+        gtag('event', 'click_formulario_ingreso', {
+          event_category: 'interaccion',
+          event_label: 'Formulario de ingreso'
+        });
+      }
+
+      if (href.includes('docs.google.com/forms') && text.includes('seguimiento')) {
+        gtag('event', 'click_formulario_seguimiento', {
+          event_category: 'interaccion',
+          event_label: 'Seguimiento post-consulta'
+        });
+      }
+
+      if (href.includes('mailto:')) {
+        gtag('event', 'click_email', {
+          event_category: 'interaccion',
+          event_label: href
+        });
+      }
+
+      if (href === '#consulta') {
+        gtag('event', 'click_boton_flotante_agenda', {
+          event_category: 'interaccion',
+          event_label: 'Botón flotante agenda'
+        });
+      }
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
       const reveals = document.querySelectorAll('.reveal');
 
@@ -2086,6 +2144,5 @@
       });
     });
   </script>
-
 </body>
 </html>
