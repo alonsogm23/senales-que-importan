@@ -11,6 +11,7 @@
   <meta name="keywords" content="Dr Denis Gómez Recabarren, Denis Gómez Recabarren, psiquiatra infantil Viña del Mar, psiquiatra adolescente Viña del Mar, psiquiatra infanto juvenil, psiquiatría infantil, salud mental infantil, salud mental adolescente, Concón, Reñaca, Viña del Mar, Señales que importan">
 
   <meta name="robots" content="index, follow">
+
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-959QK8Z8ZG"></script>
   <script>
@@ -20,6 +21,7 @@
 
     gtag('config', 'G-959QK8Z8ZG');
   </script>
+
   <link rel="canonical" href="https://drdenisgomez.cl/">
 
   <link rel="icon" type="image/png" href="https://drdenisgomez.cl/favicon.png">
@@ -310,6 +312,16 @@
     }
 
     section { padding: 4rem 2rem; }
+
+    #inicio,
+    #sobre,
+    #areas,
+    #consulta,
+    #acceso,
+    #senales,
+    #contacto {
+      scroll-margin-top: 90px;
+    }
 
     .section-inner {
       max-width: 1100px;
@@ -1509,6 +1521,7 @@
       <li><a href="#areas">Áreas de atención</a></li>
       <li><a href="#consulta">Modalidad de consulta</a></li>
       <li><a href="#acceso">Formularios</a></li>
+      <li><a href="#senales">Señales que importan</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
   </nav>
@@ -1810,8 +1823,7 @@
               </div>
 
               <div class="price-row">
-                <span class="label">Control 
-                  </span>
+                <span class="label">Control</span>
                 <span>
                   <span class="price">$70.000</span>
                   <span class="dur"> · 35 min</span>
@@ -1828,12 +1840,11 @@
             </div>
 
             <div class="consulta-actions">
-  <a class="btn btn-secondary" href="https://wa.me/56958280917" target="_blank" rel="noopener">
-    <span class="icon icon-sm" data-lucide="message-circle"></span>
-    WhatsApp
-  </a>
-</div>
-            
+              <a class="btn btn-secondary" href="https://wa.me/56958280917" target="_blank" rel="noopener">
+                <span class="icon icon-sm" data-lucide="message-circle"></span>
+                WhatsApp
+              </a>
+            </div>
           </div>
         </div>
 
@@ -1874,9 +1885,6 @@
             </div>
 
             <div class="consulta-actions two">
-             
-              
-
               <a class="btn btn-secondary" href="https://wa.me/56950057586" target="_blank" rel="noopener">
                 <span class="icon icon-sm" data-lucide="message-circle"></span>
                 WhatsApp
@@ -1921,7 +1929,6 @@
             </div>
 
             <div class="consulta-actions two">
-              
               <a class="btn btn-secondary" href="https://wa.me/56932655021" target="_blank" rel="noopener">
                 <span class="icon icon-sm" data-lucide="message-circle"></span>
                 WhatsApp
@@ -1969,7 +1976,7 @@
     </div>
   </section>
 
-  <section class="senales-bg">
+  <section id="senales" class="senales-bg">
     <div class="section-inner">
       <div class="senales-inner">
         <div class="senales-visual reveal" style="animation: slideInLeft 0.9s var(--ease-expo) 0.1s both;">
@@ -2115,6 +2122,13 @@
         gtag('event', 'click_boton_flotante_agenda', {
           event_category: 'interaccion',
           event_label: 'Botón flotante agenda'
+        });
+      }
+
+      if (href === '#senales') {
+        gtag('event', 'click_menu_senales', {
+          event_category: 'interaccion',
+          event_label: 'Menú Señales que importan'
         });
       }
     });
