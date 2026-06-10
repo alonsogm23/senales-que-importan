@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://drdenisgomez.cl/</loc>
+    <lastmod>2026-06-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+
+    <image:image>
+      <image:loc>https://drdenisgomez.cl/foto-doctor.png</image:loc>
+      <image:title>Dr. Denis Gómez Recabarren — Psiquiatra infantil y adolescente</image:title>
+      <image:caption>Foto del Dr. Denis Gómez Recabarren, psiquiatra infantil y adolescente en Viña del Mar.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://drdenisgomez.cl/dr-denis-gomez-psiquiatra-infantil-adolescente-vina-del-mar.png</image:loc>
+      <image:title>Dr. Denis Gómez Recabarren — Psiquiatra infantil y adolescente en Viña del Mar</image:title>
+      <image:caption>Acompañamiento profesional para niños, adolescentes y familias: TEA, TDAH, ansiedad, ánimo y conducta.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://drdenisgomez.cl/etapa-o-necesita-ayuda-psiquiatra-infantil-vina-del-mar.jpg</image:loc>
+      <image:title>¿Es una etapa o necesita ayuda? — Dr. Denis Gómez Recabarren</image:title>
+      <image:caption>Cuándo una situación forma parte del desarrollo y cuándo merece una evaluación psiquiátrica.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://drdenisgomez.cl/senales-salud-mental-ninos-adolescentes-vina-del-mar.jpg</image:loc>
+      <image:title>Algunas señales merecen atención — salud mental infanto-juvenil</image:title>
+      <image:caption>Cambios de ánimo, aislamiento, ansiedad y dificultades de atención en niños y adolescentes.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://drdenisgomez.cl/primera-consulta-psiquiatra-infantil-vina-del-mar.jpg</image:loc>
+      <image:title>¿Cómo es la primera consulta? — Dr. Denis Gómez Recabarren</image:title>
+      <image:caption>Escucha inicial, evaluación clínica, orientación familiar y plan de abordaje.</image:caption>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://drdenisgomez.cl/senales-que-importan.png</image:loc>
+      <image:title>Señales que importan — charlas de salud mental infanto-juvenil</image:title>
+      <image:caption>Iniciativa del Dr. Denis Gómez Recabarren para comunidades educativas de la Región de Valparaíso.</image:caption>
+    </image:image>
+  </url>
+</urlset>
