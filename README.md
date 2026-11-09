@@ -66,3 +66,7 @@ Si Chromium ya está instalado: `CHROMIUM_PATH=/usr/bin/chromium npm run test:br
 - [Resultado de las verificaciones](docs/VERIFICACION.md).
 
 La aprobación clínica de preguntas, reglas, advertencias y plazos sigue pendiente. Las prioridades solo organizan revisión y pueden equivocarse. Las notificaciones externas son simuladas; no hay proveedor de correo, SMS, IA ni ficha clínica conectado. No habilitar este prototipo para pacientes reales ni publicarlo como un portal operativo.
+
+## Acceso desde otro dispositivo
+
+La dirección local no es accesible desde un iPhone/iPad en otra red. El entorno de esta sesión no pudo crear un túnel externo: el servicio de túnel fue bloqueado. Se ha preparado una [demostración HTTPS separada con acceso protegido](docs/DEMO-EXTERNA.md) y un Blueprint de Render, **sin aplicarlo ni contratar recursos**. La guía incluye los requisitos, costes publicados, credenciales ficticias por perfil y comprobaciones todavía pendientes en el alojamiento real. `npm run start:shared-demo` es un punto de entrada diferente, que exige configuración explícita y conserva la web pública intacta.

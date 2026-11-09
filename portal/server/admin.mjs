@@ -4,7 +4,11 @@ import { backup } from "node:sqlite";
 import { resolve } from "node:path";
 import { mkdirSync, chmodSync, readFileSync, writeFileSync } from "node:fs";
 const root = new URL("../../", import.meta.url).pathname;
-const store = openStore(resolve(root, "portal/data/demo.sqlite"));
+const store = openStore(
+  resolve(
+    process.env.PORTAL_DEMO_DB || resolve(root, "portal/data/demo.sqlite"),
+  ),
+);
 if (process.argv[2] === "codes") {
   console.log(
     "Segundo factor de cuentas ficticias. No es un servicio de autenticación de producción.",

@@ -46,3 +46,6 @@ No se desplegó ni se probó con pacientes reales. No hubo entrega real de email
 La arquitectura y matriz están en [PORTAL.md](PORTAL.md). Los bloqueos y pasos pendientes para otra etapa figuran en [OPERACION.md](OPERACION.md). Nada de esta entrega autoriza habilitar el uso con personas reales.
 
 Capturas de la versión probada: [escritorio](previews/portal-desktop.png) y [móvil](previews/portal-mobile.png). También se verificó que `NODE_ENV=production` bloquea el arranque. `git diff --check` pasó y `main` permaneció en `1a2d3a395f48d505d167290ccbbcb8d7cc2f9a8f` al cerrar la implementación.
+
+
+Actualización de acceso externo: 25 pruebas de servidor/seguridad aprobadas (incluidas 2 de la barrera de demostración). Comprobación adicional sobre el servidor iniciado: ingreso de los cinco perfiles principales, solicitud persistente, aislamiento de centro y aceptación médica. El túnel externo falló y no existe un servicio alojado; no se ha verificado Safari físico ni TLS público. Configuración y precios de la alternativa: [DEMO-EXTERNA.md](DEMO-EXTERNA.md).

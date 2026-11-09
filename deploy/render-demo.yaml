@@ -1,0 +1,30 @@
+# PROPOSAL ONLY: applying this Blueprint provisions a PAID independent demo.
+# Review docs/DEMO-EXTERNA.md and approve the cost before creating resources.
+services:
+  - type: web
+    name: senales-portal-demo-privada
+    runtime: node
+    repo: https://github.com/alonsogm23/senales-que-importan
+    branch: feat/portal-pacientes-prueba
+    plan: 0.5c-512mb
+    buildCommand: npm ci --omit=dev
+    startCommand: npm run start:shared-demo
+    autoDeployTrigger: "off"
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 24.22.1
+      - key: PORTAL_DEMO_MODE
+        value: fictional-only
+      - key: PORTAL_DEMO_ORIGIN
+        sync: false
+      - key: PORTAL_DEMO_PASSWORD
+        generateValue: true
+      - key: PORTAL_DEMO_EXPIRES_AT
+        sync: false
+      - key: PORTAL_DEMO_DB
+        value: /var/data/demo.sqlite
+    disk:
+      name: fictional-demo-data
+      mountPath: /var/data
+      sizeGB: 1

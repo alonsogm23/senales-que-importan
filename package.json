@@ -8,11 +8,12 @@
   "scripts": {
     "start": "node portal/server/server.mjs",
     "test": "node --test portal/tests/*.test.mjs",
-    "check": "node --check portal/server/server.mjs && node --check portal/server/service.mjs && node --check portal/public/app.js",
+    "check": "node --check portal/server/server.mjs && node --check portal/server/service.mjs && node --check portal/public/app.js && node --check portal/server/shared-demo.mjs",
     "demo:codes": "node portal/server/admin.mjs codes",
     "backup": "node portal/server/admin.mjs backup",
     "test:browser": "playwright test",
-    "test:all": "npm run check && npm test && npm run test:browser"
+    "test:all": "npm run check && npm test && npm run test:browser",
+    "start:shared-demo": "node portal/server/shared-demo.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.65.0"
