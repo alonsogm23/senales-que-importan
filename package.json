@@ -1,0 +1,20 @@
+{
+  "name": "senales-que-importan-portal-prueba",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.14 <25"
+  },
+  "scripts": {
+    "start": "node portal/server/server.mjs",
+    "test": "node --test portal/tests/*.test.mjs",
+    "check": "node --check portal/server/server.mjs && node --check portal/server/service.mjs && node --check portal/public/app.js",
+    "demo:codes": "node portal/server/admin.mjs codes",
+    "backup": "node portal/server/admin.mjs backup",
+    "test:browser": "playwright test",
+    "test:all": "npm run check && npm test && npm run test:browser"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0"
+  }
+}

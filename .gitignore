@@ -1,0 +1,5 @@
+node_modules/
+work/
+portal/data/
+playwright-report/
+test-results/
