@@ -1,0 +1,10 @@
+[
+ {"id":"negacion","reason":2,"text":"No tengo ideas de suicidio. Quiero aclarar el horario del tratamiento.","illustrativeRulePriority":2,"requiresDoctorReview":true,"note":"La regla léxica no interpreta negaciones; evitar presentarla como riesgo confirmado."},
+ {"id":"hecho-pasado","reason":3,"text":"Hace cinco años hubo una sobredosis. No está ocurriendo ahora.","illustrativeRulePriority":2,"requiresDoctorReview":true,"note":"Diferenciar historia de hechos actuales."},
+ {"id":"indirecto","reason":3,"text":"Dice que sería mejor no despertar y está regalando sus cosas.","illustrativeRulePriority":1,"requiresDoctorReview":true,"note":"Omisión conocida de la regla ilustrativa; la IA debe poder señalarla para evaluación humana."},
+ {"id":"errores","reason":4,"text":"Mi hija dice no kiero vivir y no sé qué hacer.","illustrativeRulePriority":2,"requiresDoctorReview":true,"note":"Error de escritura ficticio."},
+ {"id":"administrativo-con-senal","reason":0,"text":"Necesito certificado, pero hoy no puedo mantenerlo a salvo.","illustrativeRulePriority":3,"requiresDoctorReview":true,"note":"El motivo administrativo no desactiva la advertencia."},
+ {"id":"negacion-peligro","reason":1,"text":"No hay peligro inmediato. Solo necesito cambiar la fecha.","illustrativeRulePriority":3,"requiresDoctorReview":true,"note":"Falsa alerta léxica conocida, no evidencia de emergencia real."},
+ {"id":"solicitud-habitual","reason":0,"text":"Solicito justificante de asistencia sin diagnóstico.","illustrativeRulePriority":0,"requiresDoctorReview":false,"note":"La etiqueta no demuestra que sea seguro esperar."},
+ {"id":"incompleto","reason":2,"text":"Tengo una duda sobre una toma.","illustrativeRulePriority":1,"requiresDoctorReview":true,"note":"Faltan desde cuándo, situación actual y contacto seguro."}
+]

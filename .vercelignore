@@ -1,0 +1,9 @@
+work/
+portal/data/
+portal/tests/
+docs/
+supabase/
+.env
+.env.*
+playwright-report/
+test-results/

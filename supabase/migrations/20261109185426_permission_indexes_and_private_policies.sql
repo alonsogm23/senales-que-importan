@@ -1,0 +1,14 @@
+create policy tickets_no_direct_access on portal_private.download_tickets for all to anon,authenticated using(false) with check(false);
+create policy permits_no_direct_access on portal_private.demo_auth_permits for all to anon,authenticated using(false) with check(false);
+create index on portal_private.download_tickets(account);
+create index on portal_private.download_tickets(document);
+create index on public.portal_audit(actor);
+create index on public.portal_document_recipients(account);
+create index on public.portal_documents(approved_by);
+create index on public.portal_documents(uploader);
+create index on public.portal_grants(verified_by);
+create index on public.portal_message_recipients(account);
+create index on public.portal_messages(author);
+create index on public.portal_requests(accepted_by);
+create index on public.portal_requests(assigned);
+create index on public.portal_rules(author);

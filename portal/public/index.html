@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Portal de pacientes · Señales que importan</title>
+    <link rel="stylesheet" href="/portal/style.css" />
+    <script type="module" src="/portal/app.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Ir al contenido</a>
+    <div class="demo-bar">
+      VERSIÓN DE PRUEBA
+      <span
+        >· Solo identidades y documentos ficticios · Sin envíos externos</span
+      >
+    </div>
+    <header class="topbar">
+      <a class="brand" href="/portal/" aria-label="Portal, inicio"
+        ><img src="/portal/brand.png" alt="" width="48" height="48" /><span
+          >Dr. Denis Gómez Recabarren<small>Señales que importan</small></span
+        ></a
+      >
+      <div class="header-actions">
+        <a href="https://drdenisgomez.cl/">Volver a la web</a
+        ><button class="text-button" id="emergency-toggle">
+          Ayuda urgente ↗
+        </button>
+      </div>
+    </header>
+    <section
+      id="urgent"
+      class="emergency-wrap"
+      hidden
+      aria-label="Advertencia de urgencia"
+    ></section>
+    <div class="shell">
+      <aside id="sidebar" aria-label="Navegación del portal"></aside>
+      <main id="main" tabindex="-1">
+        <p role="status">Cargando el portal…</p>
+      </main>
+    </div>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <footer>
+      Dr. Denis Gómez Recabarren · Portal de pacientes de prueba<br />Un canal
+      para organizar solicitudes. No es un servicio de urgencias.
+    </footer>
+    <noscript
+      ><p>
+        Esta versión necesita JavaScript. Si existe peligro inmediato, busca
+        asistencia de urgencia ahora. No esperes una respuesta del doctor.
+      </p></noscript
+    >
+  </body>
+</html>

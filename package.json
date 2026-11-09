@@ -1,0 +1,32 @@
+{
+  "name": "senales-que-importan-portal-prueba",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.14 <25"
+  },
+  "scripts": {
+    "start": "node portal/server/supabase-server.mjs",
+    "test": "node --test portal/tests/*.test.mjs",
+    "check": "node --check portal/server/http-server.mjs && node --check portal/server/supabase-store.mjs && node --check portal/server/web-handler.mjs && node --check portal/public/app.js && node --check api/\\[...path\\].mjs",
+    "test:browser": "playwright test",
+    "test:all": "npm run check && npm test && npm run test:browser",
+    "start:legacy": "node portal/server/server.mjs",
+    "test:supabase": "node portal/tests/supabase.integration.mjs",
+    "build:portal": "node portal/scripts/build-portal.mjs",
+    "supabase:setup": "node portal/scripts/supabase-setup.mjs",
+    "supabase:seed:local": "node portal/scripts/supabase-seed.mjs",
+    "legacy:codes": "node portal/server/admin.mjs codes",
+    "legacy:backup": "node portal/server/admin.mjs backup",
+    "start:legacy:shared-demo": "node portal/server/shared-demo.mjs",
+    "test:supabase:browser": "node portal/tests/supabase-browser.mjs && node portal/tests/supabase-documents-browser.mjs",
+    "test:vercel-adapter": "node portal/tests/web-handler.integration.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "supabase": "3.1.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.119.0"
+  }
+}
