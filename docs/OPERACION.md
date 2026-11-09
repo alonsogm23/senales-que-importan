@@ -1,5 +1,7 @@
 # Operación y límites de la prueba
 
+> Documento de la etapa inicial. La aplicación activa utiliza ahora Supabase Auth, PostgreSQL y Storage privado: [implementación actual](SUPABASE.md) y [preparación Vercel](VERCEL.md). Las descripciones locales/SQLite que siguen corresponden solo al modo `legacy`; la propuesta Render no se aplicó.
+
 ## Entornos
 
 Este servidor solo escucha en `127.0.0.1`, no tiene configuración de producción y rechaza `NODE_ENV=production`. No usar un túnel público para recibir información real. La rama no debe fusionarse ni desplegarse como portal sanitario operativo. GitHub Pages seguirá sirviendo la web pública desde `main` y no ejecuta Node/SQLite. Un enlace local al portal permite revisar la integración sin cambiar esa web.
@@ -8,13 +10,13 @@ Sin credenciales externas no hay bloqueo para probar solicitudes, sesiones, perm
 
 ## Respaldo local
 
-`npm run backup` utiliza la API de backup de SQLite y guarda una copia consistente en `work/backups/` con permisos 0600. Incluye documentos BLOB, versiones, auditoría, sesiones y secretos de MFA ficticios. La base y el directorio de trabajo están ignorados por Git. La carpeta de datos tiene permisos 0700. Respaldo puede ejecutarse con el servidor abierto; para restaurar se debe detener.
+`npm run legacy:backup` utiliza la API de backup de SQLite y guarda una copia consistente en `work/backups/` con permisos 0600. Incluye documentos BLOB, versiones, auditoría, sesiones y secretos de MFA ficticios. La base y el directorio de trabajo están ignorados por Git. La carpeta de datos tiene permisos 0700. Respaldo puede ejecutarse con el servidor abierto; para restaurar se debe detener.
 
 Se verificó la recuperación de un respaldo local en una base separada: integridad SQLite, conteo de solicitudes, contenido binario de documentos y lectura autorizada. No equivale a prueba de restauración de una infraestructura cloud.
 
 ## Restaurar
 
-1. Detener `npm start` y todos los procesos que usan la base.
+1. Detener `npm run start:legacy` y todos los procesos que usan la base.
 2. Conservar una copia del estado actual fuera de `portal/data` en una carpeta privada.
 3. Reemplazar `portal/data/demo.sqlite` por la copia elegida; retirar del directorio de datos los archivos WAL/SHM de la instancia detenida, si quedaron, después de respaldarlos. Nunca mezclar WAL de otra base.
 4. Mantener permisos 0700 en directorio y 0600 en archivos.

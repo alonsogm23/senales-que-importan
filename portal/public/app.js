@@ -66,6 +66,7 @@ let data = null,
     bucket: "all",
   };
 let requestSequence = 0;
+let mfaPending = null;
 const priority = (p) =>
   `<span class="priority ${priorities[p].color}"><span aria-hidden="true">${priorities[p].icon}</span>${esc(priorities[p].name)}</span>`;
 const option = (value, label, selected) =>
@@ -143,8 +144,9 @@ function navigation() {
 function render() {
   navigation();
   const main = $("#main");
+  if (mfaPending) { renderMfa(); bind(); return; }
   if (!data) {
-    main.innerHTML = `<div class="login"><div class="eyebrow">Portal de pacientes</div><h1>Seguimos acompañándote.</h1><p class="muted">Solicitudes, documentos y seguimiento en un mismo lugar.</p>${channelNotice()}<div class="card"><h2>Ingresa a tu cuenta</h2><p class="small muted">Usa tu cuenta personal. Nunca una contraseña compartida por centro.</p><form id="login-form">${errorBox()}${field("email", "Correo electrónico", "email", "", 'required autocomplete="username" maxlength="254"')}${field("password", "Contraseña", "password", "", 'required autocomplete="current-password" maxlength="256"')}${field("code", "Segundo factor (solo profesionales)", "text", "", 'inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code"')}<button type="submit">Entrar al portal →</button></form></div><details><summary>Cuentas ficticias para esta prueba</summary><p class="small">Familia: <strong>family@example.invalid</strong><br>Contraseña: <strong>Familia-Prueba-2026!</strong><br>Otras cuentas y segundo factor profesional: consulta la documentación local. El rol se asigna en el servidor.</p></details><p class="small muted">El alta y la representación requieren revisión administrativa. Verificar correo o teléfono no demuestra representación legal. Esta prueba no admite altas de pacientes reales.</p>${coverageCard()}</div>`;
+    main.innerHTML = `<div class="login"><div class="eyebrow">Portal de pacientes</div><h1>Seguimos acompañándote.</h1><p class="muted">Solicitudes, documentos y seguimiento en un mismo lugar.</p>${channelNotice()}<div class="card"><h2>Ingresa a tu cuenta</h2><p class="small muted">Usa tu cuenta personal. Nunca una contraseña compartida por centro.</p><form id="login-form">${errorBox()}${field("email", "Correo electrónico", "email", "", 'required autocomplete="username" maxlength="254"')}${field("password", "Contraseña", "password", "", 'required autocomplete="current-password" maxlength="256"')}${field("code", "Segundo factor (solo profesionales)", "text", "", 'inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code"')}<button type="submit">Entrar al portal →</button></form></div><details><summary>Acceso a la demostración</summary><p class="small">Utiliza las credenciales individuales entregadas por el operador de la prueba. Los profesionales necesitan además su autenticador personal. El rol se asigna en el servidor.</p></details><p class="small muted">El alta y la representación requieren revisión administrativa. Verificar correo o teléfono no demuestra representación legal. Esta prueba no admite altas de pacientes reales.</p>${coverageCard()}</div>`;
     bind();
     return;
   }
@@ -156,6 +158,9 @@ function render() {
   if (page === "access") access();
   if (page === "settings") settings();
   bind();
+}
+function renderMfa() {
+ $('#main').innerHTML=`<div class="login"><div class="eyebrow">Cuenta profesional individual</div><h1>Verifica tu segundo factor</h1><div class="card">${errorBox()}<p class="muted">Los permisos profesionales permanecen bloqueados hasta verificar tu autenticador personal.</p>${mfaPending.enrollmentNeeded?`<p>Primero configura un autenticador para esta cuenta ficticia. El secreto se muestra solo durante este paso y no se guarda en el navegador.</p>${mfaPending.secret?`<img class="mfa-qr" src="${esc(mfaPending.qrCode)}" alt="Código QR para configurar tu autenticador personal"><label for="mfa-secret">Clave de configuración manual</label><input id="mfa-secret" readonly value="${esc(mfaPending.secret)}" autocomplete="off"><p class="small muted">No compartas esta clave ni captures esta pantalla.</p>`:'<button id="mfa-enroll">Configurar mi autenticador</button>'}`:''}${mfaPending.factorId?`<form id="mfa-form">${field('mfa-code','Código del autenticador','text','','required inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="one-time-code"')}<button type="submit">Verificar y entrar</button></form>`:''}<button class="text-button" id="mfa-cancel">Salir de esta cuenta</button></div></div>`;
 }
 function home() {
   const list = data.requests;
@@ -436,7 +441,7 @@ function actions(r) {
 }
 function notifications() {
   $("#main").innerHTML =
-    `<div class="eyebrow">Seguimiento de avisos</div><h1>Notificaciones</h1><p class="muted">Una notificación disponible o entregada no confirma lectura ni aceptación del profesional.</p>${errorBox()}<div class="notice warn">Prueba local: no se envían correos, mensajes ni SMS reales. El correo preparado solo dice «Tienes una actualización en el portal. Ingresa con tu cuenta personal».</div>${data.notices.length ? data.notices.map((n) => `<div class="card"><div class="row between"><strong>${esc(notificationNames[n.status] || n.status)}</strong><span class="tag">${esc(n.channel)}</span></div><p class="small muted">${date(n.created_at)}</p><button class="text-button" data-open="${esc(n.request)}">Abrir solicitud autorizada →</button></div>`).join("") : empty("Sin notificaciones", "Los avisos aparecerán aquí.")} ${staff() ? `<div class="card"><h2>Mis avisos</h2><p class="small muted">La disponibilidad de notificaciones no implica presencia efectiva. Las secretarías pueden recibir avisos las 24 horas en su centro autorizado.</p><form id="preferences-form"><fieldset><legend>Prioridades que quieres recibir</legend>${priorities.map((p, i) => checked("priorities", i, p.name, data.preferences.includes(i))).join("")}</fieldset><button type="submit">Guardar preferencias</button></form></div>` : ""}${doctor() ? `<div class="card"><h2>Simular entrega</h2><p class="small muted">El segundo canal es un adaptador de prueba. Los avisos al doctor se conservan fuera de cobertura. Los reintentos requieren configuración operativa.</p><div class="row"><button data-notify="delivered">Simular entrega del proveedor</button><button class="secondary" data-notify="failed">Simular fallo de entrega</button></div></div>` : ""}`;
+    `<div class="eyebrow">Seguimiento de avisos</div><h1>Notificaciones</h1><p class="muted">Una notificación disponible o entregada no confirma lectura ni aceptación del profesional.</p>${errorBox()}<div class="notice warn">Versión de prueba: no se envían correos, mensajes ni SMS reales. El correo preparado solo dice «Tienes una actualización en el portal. Ingresa con tu cuenta personal».</div>${data.notices.length ? data.notices.map((n) => `<div class="card"><div class="row between"><strong>${esc(notificationNames[n.status] || n.status)}</strong><span class="tag">${esc(n.channel)}</span></div><p class="small muted">${date(n.created_at)}</p><button class="text-button" data-open="${esc(n.request)}">Abrir solicitud autorizada →</button></div>`).join("") : empty("Sin notificaciones", "Los avisos aparecerán aquí.")} ${staff() ? `<div class="card"><h2>Mis avisos</h2><p class="small muted">La disponibilidad de notificaciones no implica presencia efectiva. Las secretarías pueden recibir avisos las 24 horas en su centro autorizado.</p><form id="preferences-form"><fieldset><legend>Prioridades que quieres recibir</legend>${priorities.map((p, i) => checked("priorities", i, p.name, data.preferences.includes(i))).join("")}</fieldset><button type="submit">Guardar preferencias</button></form></div>` : ""}${doctor() ? `<div class="card"><h2>Simular entrega</h2><p class="small muted">El segundo canal es un adaptador de prueba. Los avisos al doctor se conservan fuera de cobertura. Los reintentos requieren configuración operativa.</p><div class="row"><button data-notify="delivered">Simular entrega del proveedor</button><button class="secondary" data-notify="failed">Simular fallo de entrega</button></div></div>` : ""}`;
 }
 function access() {
   if (!["personal", "doctor"].includes(data.account.role)) {
@@ -445,7 +450,7 @@ function access() {
     return;
   }
   $("#main").innerHTML =
-    `<div class="eyebrow">Autorizaciones verificadas</div><h1>Vínculos y revisión de accesos</h1><p class="muted">Verificar un teléfono, correo o RUT no demuestra representación legal. Los casos dudosos y las restricciones judiciales requieren revisión humana.</p>${errorBox()}<div class="notice warn">Solo vínculos ficticios. Al llegar a la fecha de revisión, el acceso se bloquea hasta una nueva verificación. La mayoría de edad requiere revisar las autorizaciones.</div><div class="card">${data.grants.map((g) => `<section class="access-row"><h3>${esc(g.account_name)} → ${esc(g.patient_name)}</h3><p class="small">${g.revoked_at ? "Revocado" : g.review_on && g.review_on <= new Date().toISOString().slice(0, 10) ? "Bloqueado: revisión vencida" : "Vínculo vigente"} · ${[g.manage ? "gestiona trámites" : "", g.submit ? "envía antecedentes" : "", g.clinical ? "consulta contenido clínico según destinatarios" : ""].filter(Boolean).join(" · ")}</p><p class="small muted">Próxima revisión: ${esc(g.review_on || "Paciente titular; sin revisión de representación")}</p>${!g.revoked_at ? `<button class="danger" data-revoke="${g.id}">Revocar este vínculo</button>` : ""}<details><summary>Registrar revisión administrativa ficticia</summary><form data-grant="${g.id}">${field(`evidence-${g.id}`, "Referencia del expediente de verificación (sin contenido sensible)", "text", "", 'required maxlength="120" pattern="[A-Za-z0-9_-]{4,120}"')}${field(`review-${g.id}`, "Próxima revisión de permisos", "date", "", "required")}<fieldset><legend>Permisos comprobados por revisión humana</legend>${checked("manage", "yes", "Gestionar trámites", !!g.manage)}${checked("submit", "yes", "Enviar antecedentes", !!g.submit)}${checked("clinical", "yes", "Consultar contenido clínico seleccionado", !!g.clinical)}</fieldset>${checked("verified", "yes", "He comprobado la autorización y posibles restricciones en este caso ficticio.")}<button type="submit">Registrar revisión y permisos</button></form></details></section>`).join("")}</div><p class="small muted">Esta pantalla no asigna roles profesionales ni crea pacientes a partir de un RUT. El alta inicial de cuentas y vínculos pertenece al procedimiento de servidor documentado.</p>`;
+    `<div class="eyebrow">Autorizaciones verificadas</div><h1>Vínculos y revisión de accesos</h1><p class="muted">Verificar un teléfono, correo o RUT no demuestra representación legal. Los casos dudosos y las restricciones judiciales requieren revisión humana.</p>${errorBox()}<div class="notice warn">Solo vínculos ficticios. Al llegar a la fecha de revisión, el acceso se bloquea hasta una nueva verificación. La mayoría de edad requiere revisar las autorizaciones.</div><div class="card">${data.grants.map((g) => `<section class="access-row"><h3>${esc(g.account_name)} → ${esc(g.patient_name)}</h3><p class="small">${g.revoked_at ? "Revocado" : g.review_on && g.review_on <= new Intl.DateTimeFormat("en-CA",{timeZone:"America/Santiago",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date()) ? "Bloqueado: revisión vencida" : "Vínculo vigente"} · ${[g.manage ? "gestiona trámites" : "", g.submit ? "envía antecedentes" : "", g.clinical ? "consulta contenido clínico según destinatarios" : ""].filter(Boolean).join(" · ")}</p><p class="small muted">Próxima revisión: ${esc(g.review_on || "Paciente titular; sin revisión de representación")}</p>${!g.revoked_at ? `<button class="danger" data-revoke="${g.id}">Revocar este vínculo</button>` : ""}<details><summary>Registrar revisión administrativa ficticia</summary><form data-grant="${g.id}">${field(`evidence-${g.id}`, "Referencia del expediente de verificación (sin contenido sensible)", "text", "", 'required maxlength="120" pattern="[A-Za-z0-9_-]{4,120}"')}${field(`review-${g.id}`, "Próxima revisión de permisos", "date", "", "required")}<fieldset><legend>Permisos comprobados por revisión humana</legend>${checked("manage", "yes", "Gestionar trámites", !!g.manage)}${checked("submit", "yes", "Enviar antecedentes", !!g.submit)}${checked("clinical", "yes", "Consultar contenido clínico seleccionado", !!g.clinical)}</fieldset>${checked("verified", "yes", "He comprobado la autorización y posibles restricciones en este caso ficticio.")}<button type="submit">Registrar revisión y permisos</button></form></details></section>`).join("")}</div><p class="small muted">Esta pantalla no asigna roles profesionales ni crea pacientes a partir de un RUT. El alta inicial de cuentas y vínculos pertenece al procedimiento de servidor documentado.</p>`;
 }
 function settings() {
   if (!doctor()) {
@@ -508,6 +513,9 @@ function click(id, handler) {
     };
 }
 function bind() {
+  click("#mfa-enroll", async()=>{const result=await api("mfa/enroll",{});mfaPending={...mfaPending,...result};render();});
+  form("#mfa-form", async f=>{const result=await api("mfa/verify",{factorId:mfaPending.factorId,code:f.get("mfa-code")});csrf=result.csrf;mfaPending=null;await refresh();page="home";render();$("#main").focus();});
+  click("#mfa-cancel", async()=>{try{await api("logout",{});}finally{mfaPending=null;data=null;csrf="";render();}});
   $$("[data-page]").forEach(
     (b) =>
       (b.onclick = async () => {
@@ -535,6 +543,7 @@ function bind() {
   form("#login-form", async (f) => {
     const r = await api("login", Object.fromEntries(f));
     csrf = r.csrf;
+    if (r.mfaRequired) {mfaPending=r; render(); return;}
     await refresh();
     page = "home";
     render();
@@ -796,7 +805,7 @@ try {
   render();
 } catch {
   $("#main").innerHTML =
-    `<div class="card"><h1>No se pudo cargar el portal</h1><p>Comprueba que el servidor local de prueba está en ejecución y recarga la página.</p><p class="emergency-copy">${esc(emergency)}</p></div>`;
+    `<div class="card"><h1>No se pudo cargar el portal</h1><p>No pudimos conectar con el servicio de prueba. Intenta recargar la página. Las solicitudes guardadas se conservan.</p><p class="emergency-copy">${esc(emergency)}</p></div>`;
 }
 // Coverage can change while the page remains open. Never infers human presence.
 setInterval(async () => {

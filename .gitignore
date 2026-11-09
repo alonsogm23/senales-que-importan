@@ -3,3 +3,12 @@ work/
 portal/data/
 playwright-report/
 test-results/
+
+.env
+.env.*
+!.env.example
+supabase/.temp/
+supabase/.branches/
+
+dist-portal/
+.vercel/

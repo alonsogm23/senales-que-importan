@@ -1,51 +1,46 @@
-# Verificaciones de la versión de prueba
+# Verificación del Portal de Pacientes
 
-Fecha: 9 de noviembre de 2026. Entorno: Node.js 24.22.1, SQLite nativo, Chromium del entorno mediante Playwright 1.65.0. No había controles automatizados previos en el repositorio. Se añadieron pruebas de permisos y recorridos, sin servicios reales.
+Actualización: 9 de noviembre de 2026. Solo identidades, solicitudes y documentos ficticios. El PR sigue en borrador; `main`, Pages y `drdenisgomez.cl` no se modificaron.
 
-## Resultados ejecutados
+## Supabase alojado real
 
-| Control | Resultado |
-| --- | --- |
-| `npm run check` | Correcto: sintaxis de servidor, servicio y cliente |
-| `npm test` | **23 pruebas aprobadas**, 0 fallos |
-| `CHROMIUM_PATH=/usr/bin/chromium npm run test:browser` | **20 pruebas aprobadas**, 0 fallos; 10 escritorio + 10 móvil |
-| `npm audit` | 0 vulnerabilidades informadas al consultar el registro |
-| Arranque con `npm start` y consulta HTTP local | Correcto; HTML del portal accesible |
-| `npm run backup` | Copia SQLite local creada, sin subir ni imprimir contenido |
-| Restauración en base independiente | Integridad `ok`, solicitudes, adjuntos binarios y permisos conservados |
-| `node portal/server/evaluate.mjs` | Ocho casos ficticios; proveedor IA `not_configured`; no se calcula exactitud clínica |
-| Revisión visual | Capturas de 1440×1000 y 390×844, sin desbordamiento global; fuentes y recursos locales |
+Proyecto `senales-portal-demo-ficticia` (`cpioegorrksyqlqllesu`), Alonso org, plan Free, estado ACTIVE_HEALTHY. Se verificaron ocho usuarios en Auth, cuatro perfiles profesionales y cuatro factores TOTP verificados. PostgreSQL confirmó RLS en todas las tablas públicas del portal y bucket `portal-documents` privado. No se consultó contenido del proyecto existente.
 
-## Acceso y aislamiento comprobados
+La suite `portal/tests/supabase.integration.mjs` agrupa 12 pruebas de integración. Accede a Auth, REST, RPC y Storage reales; no usa SQLite, mocks ni un fallback. Comprueba:
 
-- CENIT y Cenepsi reciben solo solicitudes de su centro. La interfaz restringe filtros y acciones. API/URL directa rechazan solicitudes ajenas; vistas SQL no devuelven sus filas.
-- Secretaría no puede alterar centro para ampliar acceso. Trigger SQL también rechaza esa escritura. Cambio autorizado por coordinación no abre notas/documentos anteriores al nuevo centro.
-- La secretaria personal ve metadatos de ambos centros y filtra Todos/CENIT/Cenepsi; no recibe conversaciones ni documentos clínicos. El doctor accede a todas las solicitudes y originales.
-- Rol del cliente ignorado, ruta de elevación inexistente, actualización/creación de rol bloqueada por trigger fuera de aprovisionamiento de servidor. Se probaron dos secretarias individuales del mismo centro.
-- Paciente ajeno, destinatario sin autorización, borrador, documento clínico restringido y archivo del otro centro quedan denegados. Se verificaron versiones, aprobación exclusiva médica, firma básica de tipo, expiración y un solo uso del enlace ligado a sesión.
-- Representante con permiso de enviar no obtiene solicitudes de otro remitente si no puede gestionar. Gestionar trámites no habilita consultas clínicas nuevas. Acceso clínico exige autorización y destinatarios; un representante no recibe la conversación privada del adolescente por defecto.
-- Revocación de vínculo bloquea API y descargas con sesión previa. Revisión vencida bloquea. Cambios de versión de sesión invalidan sesiones. MFA profesional obligatorio y código TOTP no reutilizable.
-- CSRF/origen ajeno rechazados, backend y archivo SQLite no servidos por URL. Cookies HttpOnly y SameSite; respuestas privadas `no-store`, CSP y ausencia de peticiones externas del portal en navegador.
-- Texto de prueba sensible ausente de metadatos de secretaría, notificaciones y auditoría. El servidor solo imprime el mensaje fijo de arranque; no registra cuerpos, URLs o excepciones de peticiones. Auditoría append-only mediante triggers.
+- Inicio de sesión y MFA con Supabase. Sesión profesional AAL1 sin acceso a solicitudes. Cambiar `user_metadata.role` no cambia el perfil; la escritura directa de perfiles está denegada.
+- CENIT y Cenepsi ven solo su centro mediante API de aplicación y REST. Se rechazan IDs del otro centro y el intento de cambiar centro para ampliar acceso.
+- La secretaria personal coordina ambos centros sin conversaciones clínicas; doctor ve ambos y el original. El representante no obtiene el hilo privado del adolescente ni información de pacientes ajenos.
+- Crear una solicitud por HTTP y ampliar el hilo persiste en PostgreSQL, con estado Registrada y aceptación nula.
+- Subida a Storage privado, borrador invisible a familia, aprobación exclusiva del doctor, descarga autorizada y ticket de un solo uso. Lectura directa y creación de URL firmada con tokens de usuario denegadas.
+- Documentos clínicos solo para doctor y destinatarios aprobados. Revocar un vínculo bloquea API, REST y un ticket ya emitido con sesión anterior; el fixture se restituye después de comprobarlo.
+- Cambio autorizado de centro sin revelar mensajes ni documentos administrativos anteriores. Cambio no autorizado denegado.
+- IA no configurada y fallo simulado de notificaciones conservan la solicitud, texto original y falta de aceptación. El worker informa cero mensajes externos enviados. La cola no incluye cuerpos clínicos. El texto y los metadatos de documentos no se leen directamente por REST, incluso con token médico: se exige el RPC que audita la consulta.
+- Aislamiento de archivos comprobado en ambas direcciones CENIT/Cenepsi. Un ticket emitido para una sesión no sirve en otra sesión del mismo representante. Una frase roja en una gestión administrativa eleva prioridad desde PostgreSQL aunque el cliente envíe prioridad verde; secretaría no puede aceptarla como actuación médica.
+- Rechazo de tipo de adjunto falso, CSRF ausente, registro público no autorizado, RPC anónimo y escritura de auditoría. Logout invalida la sesión anterior.
 
-## Flujos y resiliencia comprobados
+También se consultó la función PostgreSQL de cobertura en diez instantes: antes y al abrir/cerrar jornada, sábado y cambios de hora de abril/septiembre de 2026. Resultados coincidentes con `America/Santiago`. Las pruebas de regresión conservan casos de ausencia y próxima apertura.
 
-- Familia: ingreso, formulario dinámico, revisión de paciente/centro/resumen/destinatarios, guardado, seguimiento y ampliación del hilo sin crear duplicado.
-- Secretaría: bandeja autorizada, carga de borrador privado y selección de destinatario. Doctor: original, aceptación explícita, aprobación. Familia: descarga después de aprobación.
-- Señal roja en motivo administrativo activa la advertencia antes de enviar. Sin login también está disponible. Guardar o simular entrega no crea aceptación médica.
-- Asignación no confirma recepción profesional; doctor acepta con actuación auditada y puede registrar incorporación manual a ficha. La ficha externa no está conectada.
-- Límite 08:00/20:00 en semana y 08:00/13:00 de fin de semana. Cambios de hora de Chile en abril y septiembre de 2026; siguiente apertura con offset correcto. Ausencia indefinida, retorno en mitad de jornada y retorno a largo plazo.
-- Fallo simulado de alertas conserva la solicitud. Reintento no se adelanta al intervalo configurado; segundo intento puede simular entrega. Escalamiento sin respaldo solo marca coordinación manual. Ninguno acepta automáticamente la solicitud.
-- IA ausente, proveedor que falla, fragmento inventado y salida válida en observación; se conserva original y prioridad. Las sugerencias no se aplican. Casos incluyen negaciones, pasado, lenguaje indirecto, errores, incompletitud y trámite con señal.
-- Navegación por teclado, campos etiquetados, errores accesibles, layouts desktop/móvil y ausencia de errores JavaScript en recorrido revisado.
+Los advisors finales no detectan tablas sin RLS ni funciones con búsqueda mutable. Queda una advertencia: [protección contra contraseñas filtradas](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection), disponible desde Pro y no activada para respetar US$0. Los índices de claves foráneas que faltaban se añadieron; los avisos restantes de rendimiento son índices todavía sin uso en esta base pequeña.
 
-## Límites de lo comprobado
+## Navegador y adaptador de alojamiento
 
-No se desplegó ni se probó con pacientes reales. No hubo entrega real de email/SMS/segundo canal, identidad de producción, proveedor IA, ficha clínica, cifrado de una infraestructura externa, RLS de Postgres, recuperación de cuenta real, ni pruebas de cargas clínicas o de desastre cloud. Las pruebas de notificación y proveedor son simulaciones explícitas; no acreditan integración operativa. Las reglas son ilustrativas con omisiones y falsas alertas conocidas; no se ha medido precisión ni seguridad clínica. No se efectuó auditoría legal, pentest independiente, evaluación WCAG completa ni prueba con Safari/Firefox, lector de pantalla o dispositivos físicos.
+Pasaron **11/11 recorridos** en Chromium con backend Supabase alojado desde el servidor de desarrollo. Los recorridos de familia comprueban selección explícita de paciente, formulario, revisión, envío y ampliación de hilo. Los profesionales comprueban MFA, bandejas por centro y rechazo de API ajena. Las suites alojadas deben ejecutarse secuencialmente: la verificación MFA puede invalidar otras sesiones pendientes del mismo usuario; no se cambió esa protección del proveedor para facilitar las pruebas. El enrolamiento desde interfaz comprueba que se carga el QR y que Auth acepta el código. Las pruebas no generan trazas ni capturas de secretos. Se comprobó la carga de la imagen QR y la verificación con código TOTP; no se probó escanear el QR con un teléfono físico.
 
-La arquitectura y matriz están en [PORTAL.md](PORTAL.md). Los bloqueos y pasos pendientes para otra etapa figuran en [OPERACION.md](OPERACION.md). Nada de esta entrega autoriza habilitar el uso con personas reales.
+El flujo de documentos se verificó en **1440×1000 y 390×844**: secretaria sube PDF ficticio, doctor aprueba esa versión y familia descarga desde el botón de la interfaz. Se comprobó además el adaptador Web Request/Response previsto para Vercel: login real, cookie Secure/HttpOnly de tamaño válido, CSRF entre dos instancias con secreto estable, POST persistido, origen incorrecto rechazado y `no-store`.
 
-Capturas de la versión probada: [escritorio](previews/portal-desktop.png) y [móvil](previews/portal-mobile.png). También se verificó que `NODE_ENV=production` bloquea el arranque. `git diff --check` pasó y `main` permaneció en `1a2d3a395f48d505d167290ccbbcb8d7cc2f9a8f` al cerrar la implementación.
+El build `npm run build:portal` produce únicamente activos del portal y logo; no incluye bases locales, credenciales ni la página pública. `npm run check` y `git diff --check` pasaron. El esquema de `vercel.json` y la documentación vigente de funciones Node se consultaron al preparar el adaptador.
 
+## Regresión conservada
 
-Actualización de acceso externo: 25 pruebas de servidor/seguridad aprobadas (incluidas 2 de la barrera de demostración). Comprobación adicional sobre el servidor iniciado: ingreso de los cinco perfiles principales, solicitud persistente, aislamiento de centro y aceptación médica. El túnel externo falló y no existe un servicio alojado; no se ha verificado Safari físico ni TLS público. Configuración y precios de la alternativa: [DEMO-EXTERNA.md](DEMO-EXTERNA.md).
+`npm test`: **25/25** comprobaciones de servidor/seguridad del prototipo SQLite, incluidas barrera externa legacy, aislamiento, representación, documentos, sesiones, horarios, fallos y observación de IA.
+
+`CHROMIUM_PATH=/usr/bin/chromium npm run test:browser`: **20/20** recorridos de escritorio/móvil del prototipo conservado. Estas pruebas usan SQLite en memoria y se identifican como regresión, no como evidencia de Supabase.
+
+## Límites y pendientes
+
+No se desplegó la interfaz en Vercel, no se probó su builder/runtime alojado, dominio HTTPS ni protección de despliegue. No se dispone todavía de un enlace público para el dispositivo del usuario. No se probó Safari en iPhone/iPad, Firefox, lector de pantalla ni accesibilidad con familias reales.
+
+No hay Gmail/SMTP, SMS, segundo canal, IA o ficha clínica operativos. Fallos/entregas externas son simulaciones explícitas. El Gmail proporcionado queda como contacto propuesto, sin mensajes enviados. No se verificó restauración completa de PostgreSQL/Auth/Storage ni recuperación de cuentas en una infraestructura operativa. Tampoco se efectuó pentest independiente, prueba de carga, auditoría legal ni aprobación de preguntas/reglas por el doctor. No se utilizaron datos reales.
+
+Las credenciales y los secretos MFA de automatización se conservan fuera de Git, con permisos privados. Antes de compartir accesos deben rotarse y enrolarse factores personales. La configuración gratuita no se presenta como habilitación para pacientes reales. Los pasos siguientes están en [VERCEL.md](VERCEL.md) y [SUPABASE.md](SUPABASE.md).

@@ -1,5 +1,7 @@
 # Portal de pacientes — diseño técnico de prueba
 
+> Documento de la etapa inicial. La aplicación activa utiliza ahora Supabase Auth, PostgreSQL y Storage privado: [implementación actual](SUPABASE.md) y [preparación Vercel](VERCEL.md). Las descripciones locales/SQLite que siguen corresponden solo al modo `legacy`; la propuesta Render no se aplicó.
+
 ## Inspección antes de editar
 
 Repositorio: `alonsogm23/senales-que-importan`, base `main` en `1a2d3a3`. Clonado limpio; sin cambios ajenos. No se encontró `AGENTS.md` en el repositorio ni en sus directorios superiores del espacio de trabajo. README original: un título. No había framework, gestor de dependencias, backend, autenticación, base de datos, pruebas ni componentes de aplicación reutilizables. HTML, CSS y JavaScript estaban concentrados en `index.html`; imágenes locales, Google Fonts, Lucide CDN y Google Analytics. Alojamiento confirmado mediante API de Pages: rama `main`, raíz, dominio `drdenisgomez.cl`.

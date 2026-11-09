@@ -1,72 +1,64 @@
 # Señales que importan
 
-Web del Dr. Denis Gómez Recabarren. La web pública sigue siendo `index.html`, servida por GitHub Pages desde `main`, con dominio `drdenisgomez.cl`. Esta rama incorpora un **portal local de prueba, exclusivamente con identidades ficticias**. No despliega ni modifica recursos de producción.
+Web del Dr. Denis Gómez Recabarren. La web pública (`index.html`, GitHub Pages desde `main`, `drdenisgomez.cl`) sigue intacta. Esta rama añade un **Portal de Pacientes de prueba con datos exclusivamente ficticios**. PR en borrador, sin publicación del portal en Vercel ni contratación de servicios.
 
-## Probar el portal
+## Arquitectura actual
 
-Requisitos: Node.js **24.14 o posterior de la rama 24 LTS** (verificado con 24.22.1). No hay dependencias de ejecución. SQLite usa `node:sqlite`; el módulo conserva carácter experimental en esta versión de Node.
+GitHub conserva el código. El frontend existente del portal mantiene módulos ES, identidad visual Lora/DM Sans y diseño móvil. Supabase proporciona la **única identidad activa**, PostgreSQL con RLS y Storage privado. Node 24 sirve la API y mantiene las sesiones en cookies HttpOnly; la función `portal-files` comprueba permisos con el JWT del usuario antes de transferir archivos. No se entrega una clave privilegiada al servidor Vercel ni al navegador.
+
+Proyecto aislado creado en **Alonso org / Free**: `senales-portal-demo-ficticia` (`cpioegorrksyqlqllesu`, São Paulo). Coste de creación confirmado por el complemento: **US$0/mes**. El proyecto `ninis-sicue-amigo-secreto` se conserva intacto. El plan gratuito tiene cuotas y puede pausar proyectos inactivos.
+
+## Ejecutar la aplicación conectada a Supabase
 
 ```sh
 npm ci
-npm start
+# Configurar las variables de .env.example en el entorno; nunca publicar sus valores privados.
+node --env-file=.env portal/server/supabase-server.mjs
 ```
 
-Abrir **http://127.0.0.1:4173/portal/**. En **http://127.0.0.1:4173/** se puede revisar la web existente con una entrada local al portal. El servidor elimina Analytics de esa copia local; el archivo público original queda intacto. El portal no carga recursos externos, ni analítica, ni almacenamiento en el navegador. Las fuentes originales Lora/DM Sans están alojadas localmente con sus licencias OFL.
+Node **24.14–24.x**, verificado con 24.22.1. `.env` no se carga automáticamente con `npm start`; exportar las variables o usar el comando anterior. Para desarrollo sin `.env`, `npm start` admite un archivo privado `work/supabase-hosted.json` con `{ "url": "…", "key": "clave publicable", "csrfSecret": "valor privado aleatorio" }`.
 
-Al primer arranque se crea `portal/data/demo.sqlite`, ignorado por Git. Los datos persisten al reiniciar. `NODE_ENV=production` impide arrancar el servidor de prueba; solo escucha en loopback. No introducir información real.
+El servidor de desarrollo escucha solo en loopback. Eso no proporciona acceso desde un iPhone/iPad. La [guía de Vercel](docs/VERCEL.md) prepara un alojamiento HTTPS separado; **todavía no hay una URL pública de la interfaz**. La URL de Supabase es del backend, no de la página del portal.
 
-## Cuentas ficticias
+## Cuentas y permisos
 
-Cada fila es una cuenta distinta. No hay selector de rol ni contraseñas compartidas por centro. Estas contraseñas son datos públicos de demostración, nunca credenciales utilizables con pacientes.
-
-| Correo | Contraseña ficticia | Perfil |
+| Cuenta ficticia | Perfil | Alcance |
 | --- | --- | --- |
-| family@example.invalid | Familia-Prueba-2026! | Elena, representante de Alex y Sol |
-| adolescent@example.invalid | Alex-Prueba-2026! | Alex, paciente adolescente |
-| limited@example.invalid | Tomas-Prueba-2026! | Solo enviar antecedentes de Alex; sin acceso a solicitudes ajenas |
-| other@example.invalid | Lucia-Prueba-2026! | Representante de Leo; sin vínculo con Alex/Sol |
-| cenit@example.invalid | Cenit-Prueba-2026! | Secretaría CENIT |
-| cenepsi@example.invalid | Cenepsi-Prueba-2026! | Secretaría Cenepsi |
-| personal@example.invalid | Personal-Prueba-2026! | Secretaria personal |
-| doctor@example.invalid | Doctor-Prueba-2026! | Doctor ficticio |
+| `cenit@example.invalid` | Secretaría CENIT | Gestión CENIT; sin conversaciones clínicas |
+| `cenepsi@example.invalid` | Secretaría Cenepsi | Gestión Cenepsi; sin conversaciones clínicas |
+| `personal@example.invalid` | Secretaria personal | Gestión de ambos centros; sin acceso clínico automático |
+| `doctor@example.invalid` | Dr. Gómez, prueba | Ambos centros, contenido clínico y aprobación |
+| `family@example.invalid` | Representante de Alex/Sol | Vínculos y destinatarios comprobados |
+| `adolescent@example.invalid` | Alex Prueba | Su propio contenido autorizado |
+| `limited@example.invalid` | Representante limitado | Enviar antecedentes; sin consulta clínica ajena |
+| `other@example.invalid` | Representante de Leo | Sin acceso a Alex/Sol |
 
-**Profesionales:** se exige además TOTP individual (6 dígitos, 30 segundos, ventana ±1 paso, sin reutilización). Ejecutar en otra terminal local:
-
-```sh
-npm run demo:codes
-```
-
-El comando accede a los secretos de la base de datos local; no exponerlo como endpoint, ni copiar sus códigos a una página pública. Para uso real hace falta enrolamiento y recuperación de MFA con un proveedor aprobado; este comando es una herramienta de desarrollo.
-
-Para crear otra secretaria ficticia con identidad propia, el operador autorizado del entorno puede escribir `work/nueva-cuenta.json` con `{ "email": "otra-cenit@example.invalid", "name": "Otra Secretaria Demo", "role": "cenit" }` y ejecutar:
-
-```sh
-node portal/server/admin.mjs provision work/nueva-cuenta.json
-```
-
-El procedimiento del servidor genera una contraseña individual y la guarda en `work/credentials/` con permisos 0600, sin imprimirla. Solo admite nombres Demo/Prueba y correos `@example.invalid`. No existe endpoint de asignación de roles ni se confía en campos del cliente. La creación/vinculación de pacientes reales y las invitaciones no están habilitadas.
+Las contraseñas alojadas son aleatorias e individuales; no se incluyen en Git ni en la pantalla de acceso. Las antiguas contraseñas de SQLite **no funcionan en Supabase**. Los profesionales usan MFA TOTP de Supabase con enrolamiento en pantalla; las pruebas automatizadas ya enrolaron factores ficticios. Las credenciales y autenticadores de pruebas permanecen en archivos privados de `work/` y deben rotarse/reaprovisionarse antes de entregar accesos a evaluadores. No compartir el archivo completo ni introducir datos reales. No hay selector de rol ni alta pública habilitada por la aplicación.
 
 ## Verificar
 
 ```sh
 npm run check
-npm test
-npx playwright install chromium
-npm run test:browser
-node portal/server/evaluate.mjs
-npm run backup
+npm test                              # 25 comprobaciones del prototipo conservado
+CHROMIUM_PATH=/usr/bin/chromium npm run test:browser   # 20 recorridos de regresión
+npm run build:portal
+# Con configuración y credenciales ficticias privadas del proyecto de prueba:
+npm run test:supabase
+npm run test:supabase:browser
+npm run test:vercel-adapter
 ```
 
-Si Chromium ya está instalado: `CHROMIUM_PATH=/usr/bin/chromium npm run test:browser`. Playwright es la única dependencia de desarrollo. Las pruebas crean bases en memoria y no usan servicios reales; las capturas quedan en `work/screenshots`. Los controles de esta rama están documentados en [docs/VERIFICACION.md](docs/VERIFICACION.md).
+En este entorno los comandos Node que acceden a Supabase requieren `NODE_USE_ENV_PROXY=1` para utilizar el proxy configurado. No es una variable necesaria en Vercel. Ejecutar las suites alojadas secuencialmente, ya que comparten cuentas ficticias y factores MFA. Las suites alojadas no sustituyen Supabase por una simulación ni omiten silenciosamente las comprobaciones si faltan credenciales. Modifican solo datos ficticios. No publicar trazas, cookies, QR ni archivos de `work/`.
+
+La opción de desarrollo local con la CLI oficial está en [operación Supabase](docs/SUPABASE.md). SQLite se conserva **solo como archivo de referencia/regresión y demostración sin conexión**, mediante `npm run start:legacy`. No comparte usuarios, sesiones ni permisos con la aplicación activa, no hay sincronización ni fallback automático. Sus comandos son `legacy:codes`, `legacy:backup` y `start:legacy:shared-demo`.
 
 ## Documentación
 
-- [Arquitectura, modelo, matriz de permisos y decisiones](docs/PORTAL.md).
-- [Operación local, respaldo, restauración, exportación y bloqueos](docs/OPERACION.md).
-- [Resultado de las verificaciones](docs/VERIFICACION.md).
+- [Supabase: implementación, permisos y operación](docs/SUPABASE.md).
+- [Preparación de Vercel, costes y pendientes](docs/VERCEL.md).
+- [Resultados de verificación](docs/VERIFICACION.md).
+- [Diseño inicial y matriz de permisos del prototipo](docs/PORTAL.md).
+- [Operación y respaldo SQLite de referencia](docs/OPERACION.md).
+- [Propuesta Render anterior, no aplicada](docs/DEMO-EXTERNA.md).
 
-La aprobación clínica de preguntas, reglas, advertencias y plazos sigue pendiente. Las prioridades solo organizan revisión y pueden equivocarse. Las notificaciones externas son simuladas; no hay proveedor de correo, SMS, IA ni ficha clínica conectado. No habilitar este prototipo para pacientes reales ni publicarlo como un portal operativo.
-
-## Acceso desde otro dispositivo
-
-La dirección local no es accesible desde un iPhone/iPad en otra red. El entorno de esta sesión no pudo crear un túnel externo: el servicio de túnel fue bloqueado. Se ha preparado una [demostración HTTPS separada con acceso protegido](docs/DEMO-EXTERNA.md) y un Blueprint de Render, **sin aplicarlo ni contratar recursos**. La guía incluye los requisitos, costes publicados, credenciales ficticias por perfil y comprobaciones todavía pendientes en el alojamiento real. `npm run start:shared-demo` es un punto de entrada diferente, que exige configuración explícita y conserva la web pública intacta.
+`Dr.denisgomezconsultas@gmail.com` queda registrado como contacto propuesto. No hay conexión con Gmail/SMTP, envíos reales, proveedor de IA ni ficha clínica. Las reglas de prioridad siguen siendo ilustrativas y pendientes de aprobación médica. Esta infraestructura gratuita de demostración no habilita uso con pacientes reales.

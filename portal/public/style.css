@@ -985,3 +985,4 @@ footer {
   display: block;
   overflow: visible;
 }
+.mfa-qr{display:block;width:min(240px,100%);height:auto;margin:16px auto}.mfa-qr+label{margin-top:20px}#mfa-form{margin-top:22px}

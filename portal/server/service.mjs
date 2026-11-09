@@ -22,27 +22,8 @@ import {
 export const hash = (value) => createHash("sha256").update(value).digest("hex");
 export const now = () => new Date().toISOString();
 const id = () => randomUUID();
-export class Fault extends Error {
-  constructor(status, message) {
-    super(message);
-    this.status = status;
-  }
-}
-export const fail = (
-  status = 403,
-  message = "No tienes permiso para realizar esta acción.",
-) => {
-  throw new Fault(status, message);
-};
-export function text(value, max = 6000, required = true) {
-  if (
-    typeof value !== "string" ||
-    value.length > max ||
-    (required && !value.trim())
-  )
-    fail(400, "Revisa los campos y su extensión.");
-  return value.trim();
-}
+import {Fault,fail,text} from "./errors.mjs";
+export {Fault,fail,text} from "./errors.mjs";
 export function totp(secret, instant = Date.now()) {
   const counter = Buffer.alloc(8);
   counter.writeBigUInt64BE(BigInt(Math.floor(instant / 30000)));

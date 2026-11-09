@@ -1,5 +1,7 @@
 # Acceso desde iPhone/iPad — estado y propuesta de demostración separada
 
+> Documento de la etapa inicial. La aplicación activa utiliza ahora Supabase Auth, PostgreSQL y Storage privado: [implementación actual](SUPABASE.md) y [preparación Vercel](VERCEL.md). Las descripciones locales/SQLite que siguen corresponden solo al modo `legacy`; la propuesta Render no se aplicó.
+
 ## Estado real de este entorno
 
 Comprobado el 9 de noviembre de 2026: el entorno no dispone de una herramienta para publicar puertos. Se inició el servidor y se intentó compartir mediante Cloudflare Quick Tunnel 2026.10.7. La conexión directa fue rechazada; la consulta al servicio a través del proxy del entorno devolvió HTTP 403, «Your request was blocked». No se eludió esa restricción ni se crearon túneles funcionales. **No hay una URL HTTPS externa operativa que pueda entregarse desde este entorno.** El escritorio compartido y la vista previa del entorno no convierten una dirección loopback en una dirección accesible desde Safari en otro dispositivo.
@@ -38,7 +40,7 @@ Falta una cuenta de Render conectada/autorizada para crear el servicio y aceptar
 3. Establecer `PORTAL_DEMO_EXPIRES_AT` como fecha/hora ISO con zona explícita, futura y a no más de 14 días. Render genera `PORTAL_DEMO_PASSWORD` como secreto. El Blueprint fija Node 24.22.1, `PORTAL_DEMO_DB=/var/data/demo.sqlite` y el modo exclusivamente ficticio.
 4. Entregar por un canal privado la URL de revisión y la credencial de la barrera: usuario `revision` y el secreto `PORTAL_DEMO_PASSWORD`. No poner el secreto en enlaces ni en el PR.
 5. Entrar por HTTPS y comprobar interfaz, login, creación, permisos y descarga en el servicio alojado antes de declararlo accesible. Estos controles de red externa y TLS **no se han realizado**, porque el servicio no existe todavía.
-6. Para profesionales, obtener el TOTP de sus cuentas ficticias desde la consola privada del servicio mediante `npm run demo:codes`; el comando respeta `PORTAL_DEMO_DB`. No exponer ese comando o los secretos MFA mediante un endpoint público. El operador puede organizar el enrolamiento privado en un autenticador para una prueba más prolongada; no hay un procedimiento de enrolamiento de producción implementado.
+6. Para profesionales, obtener el TOTP de sus cuentas ficticias desde la consola privada del servicio mediante `npm run legacy:codes`; el comando respeta `PORTAL_DEMO_DB`. No exponer ese comando o los secretos MFA mediante un endpoint público. El operador puede organizar el enrolamiento privado en un autenticador para una prueba más prolongada; no hay un procedimiento de enrolamiento de producción implementado.
 
 ## Entrar con cada perfil cuando exista el servicio
 
