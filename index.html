@@ -1818,7 +1818,7 @@
         </div>
       </a>
 
-      <a class="nav-call" href="tel:+56958280917" aria-label="Llamar al +56 9 5828 0917">
+      <a class="nav-call" href="tel:+56988554000" aria-label="Llamar al +56 9 8855 4000">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path>
         </svg>
@@ -2078,7 +2078,7 @@
             </div>
 
             <div class="consulta-actions">
-              <a class="btn btn-secondary" href="https://wa.me/56958280917" target="_blank" rel="noopener">
+              <a class="btn btn-secondary" href="https://wa.me/56988554000?text=Hola%2C%20quisiera%20informaci%C3%B3n%20para%20agendar%20una%20consulta%20online%20con%20el%20Dr.%20Denis%20G%C3%B3mez" target="_blank" rel="noopener">
                 <span class="icon icon-sm" data-lucide="message-circle"></span>
                 WhatsApp
               </a>
@@ -2350,10 +2350,11 @@
           <h2>Señales que importan</h2>
           <p class="sub">Charlas de salud mental infanto-juvenil para comunidades educativas</p>
           <p>El Dr. Gómez lleva charlas de salud mental a colegios y comunidades educativas de la Región de Valparaíso. Si eres docente, directivo o apoderado y quieres traer esta iniciativa a tu establecimiento, contáctanos.</p>
-          <a class="btn btn-primary" style="width:auto;" href="mailto:gestion.dr.gomez@gmail.com">
+          <a class="btn btn-primary" style="width:auto;" href="mailto:Dr.denisgomezconsultas@gmail.com">
             <span class="icon icon-sm" data-lucide="mail"></span>
             Escribir al email
           </a>
+          <p style="margin-top:0.75rem">Si no se abre tu aplicación de correo, <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=Dr.denisgomezconsultas%40gmail.com" target="_blank" rel="noopener">abrir en Gmail web</a>.</p>
         </div>
       </div>
     </div>
@@ -2391,7 +2392,8 @@
           </div>
           <div>
             <strong>Email – Señales que importan</strong>
-            <a href="mailto:gestion.dr.gomez@gmail.com">gestion.dr.gomez@gmail.com</a>
+            <a href="mailto:Dr.denisgomezconsultas@gmail.com">Dr.denisgomezconsultas@gmail.com</a>
+            <p style="margin-top:0.5rem"><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=Dr.denisgomezconsultas%40gmail.com" target="_blank" rel="noopener">Abrir en Gmail web</a></p>
           </div>
         </div>
 
@@ -2416,6 +2418,17 @@
   <a class="floating-reserve" href="#consulta" aria-label="Ir a modalidad de consulta">
     <span class="icon" data-lucide="calendar"></span>
   </a>
+
+  <script>
+    // Chrome para Android admite Gmail por intent; los demás dispositivos
+    // conservan mailto y la alternativa visible de Gmail web.
+    if (/Android/i.test(navigator.userAgent) && /Chrome\//i.test(navigator.userAgent)) {
+      const gmailWeb = 'https://mail.google.com/mail/?view=cm&fs=1&to=Dr.denisgomezconsultas%40gmail.com';
+      document.querySelectorAll('a[href="mailto:Dr.denisgomezconsultas@gmail.com"]').forEach(link => {
+        link.href = 'intent://co?to=Dr.denisgomezconsultas%40gmail.com#Intent;scheme=googlegmail;package=com.google.android.gm;S.browser_fallback_url=' + encodeURIComponent(gmailWeb) + ';end';
+      });
+    }
+  </script>
 
   <script>
     lucide.createIcons();
