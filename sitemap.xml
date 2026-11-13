@@ -43,4 +43,10 @@
       <image:caption>Iniciativa del Dr. Denis Gómez Recabarren para comunidades educativas de la Región de Valparaíso.</image:caption>
     </image:image>
   </url>
+  <url>
+    <loc>https://drdenisgomez.cl/consulta-online/</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
